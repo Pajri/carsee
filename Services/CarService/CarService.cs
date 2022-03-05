@@ -54,7 +54,8 @@ namespace CarSee.Services.CarService
                 ProductionYear = car.ProductionYear,
                 Condition = car.Condition,
                 Description = car.Description,
-                Mileage = car.Mileage
+                Mileage = car.Mileage,
+                ImageFileName = car.ImageFileName
             };
 
             return carDto;

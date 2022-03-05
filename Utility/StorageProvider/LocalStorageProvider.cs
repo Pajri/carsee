@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using CarSee.Utility.ContentTypeFileExtensionMapping;
@@ -40,6 +41,30 @@ namespace CarSee.Utility.StorageProvider
                     FileName = fileName,
                     FilePath = filePath
                 };
+            }
+            catch (System.Exception)
+            {
+                 throw;
+            }
+        }
+
+        public async Task<SPGetFileDto> Get(string fileName)
+        {
+            try
+            {
+                var filePath = Path.Combine(_options.LocalStorageProvider.FilePath, fileName);
+                var extension = Path.GetExtension(filePath);
+                var image = System.IO.File.OpenRead(filePath);
+
+                var getFile = new SPGetFileDto()
+                {
+                    FileName = fileName,
+                    FilePath = filePath,
+                    FileStream = image,
+                    ContentType = Mapping.GetContentType(extension)
+                };
+
+                return getFile;
             }
             catch (System.Exception)
             {

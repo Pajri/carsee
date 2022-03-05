@@ -1,13 +1,6 @@
 namespace CarSee.Utility.StorageProvider
 {
-    public class SPSaveResponseDto
+    public class SPSaveResponseDto : FileDto
     {
-        public string FileName { get; set; }
-        
-        public string FilePath { get; set; }
-        
-        
     }
-    
-    
 }
