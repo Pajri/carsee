@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CarSee.EntityFramework;
+using CarSee.Services.CarService;
+using CarSee.Utility.Settings;
+using CarSee.Utility.StorageProvider;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,9 +30,15 @@ namespace CarSee
         {
             services.AddControllersWithViews();
 
+            services.AddScoped<ICarService, CarService>();
+
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseNpgsql(connectionString));
+
+            services.AddScoped<IStorageProvider, LocalStorageProvider>();
+
+            services.Configure<StorageProviderConfig>(options => Configuration.GetSection("StorageProvider").Bind(options));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
