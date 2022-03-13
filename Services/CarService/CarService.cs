@@ -23,10 +23,11 @@ namespace CarSee.Services.CarService
 
             var carQuery = _ctx.Car.AsQueryable();
             if(carName != null) carQuery =  carQuery.Where(n => n.Name.ToLower().Contains(carName.ToLower()));
-            carQuery = carQuery.Skip(pageSize*page).Take(pageSize);
-
+            carQuery = carQuery.OrderByDescending(d => d.CreatedDate);
             total = carQuery.Count();
             
+            carQuery = carQuery.Skip(pageSize*page).Take(pageSize);
+
             var carListResponse = carQuery.ToList();
             var carList = new List<CarDto>();
             foreach (var item in carListResponse)
