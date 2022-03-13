@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarSee.Dtos;
 using CarSee.Services.CarService;
+using CarSee.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarSee.Controllers.Api
@@ -17,10 +19,23 @@ namespace CarSee.Controllers.Api
         }
         
         [HttpGet]
-        public async Task<List<CarDto>> Get(int? page, int? pageSize, string carName)
+        public async Task<CarApiListingViewModel> Get(int? page, int? pageSize, string carName)
         {
             var (carList, total) = _carService.GetCar(page, pageSize, carName);
-            return carList;
+            
+            decimal _pageSize =  (pageSize == null) ? 10 : (decimal) pageSize.Value;
+            int _page =  (page == null) ? 0 : page.Value;
+            decimal _total = (decimal) total;
+
+            var carViewModel = new CarApiListingViewModel
+            {
+                CarList = carList,
+                PageCount = (int) Math.Ceiling(_total/_pageSize),
+                CurrentPageIndex = _page,
+                SearchParam = carName
+            };
+
+            return carViewModel;
         }
     }
 }
