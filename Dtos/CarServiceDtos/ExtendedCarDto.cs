@@ -1,16 +1,17 @@
-using System.Collections.Generic;
 using CarSee.Dtos;
 using Microsoft.AspNetCore.Http;
 
-namespace CarSee.ViewModels
+namespace CarSee.Dtos
 {
-    public class CarViewModel : CarDto
+    public class ExtendedCarDto : CarDto
     {
         public IFormFile ImageFile { get; set; }
+        public int PageCount { get; set; }
+        public int CurrentPageIndex { get; set; }
 
-        public static CarViewModel CreateFromCarDto(CarDto car)
+        public static ExtendedCarDto CreateFromCarDto(CarDto car)
         {
-            var carResponse = new CarViewModel
+            var carResponse = new ExtendedCarDto
             {
                 Id = car.Id,
                 Name = car.Name,
@@ -26,5 +27,4 @@ namespace CarSee.ViewModels
             return carResponse;
         }
     }
-
 }

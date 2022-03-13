@@ -17,9 +17,9 @@ namespace CarSee.Controllers.Api
         }
         
         [HttpGet]
-        public async Task<List<CarDto>> Get()
+        public async Task<List<CarDto>> Get(int? page, int? pageSize, string carName)
         {
-            var carList = _carService.GetAllCar();
+            var (carList, total) = _carService.GetCar(page, pageSize, carName);
             return carList;
         }
     }

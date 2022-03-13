@@ -15,9 +15,19 @@ namespace CarSee.Services.CarService
         {
             _ctx = ctx;
         }
-        public List<CarDto> GetAllCar()
+        public (List<CarDto>, int) GetCar(int? pageParam, int? pageSizeParam, string carName = null)
         {
-            var carListResponse = _ctx.Car.ToList();
+            int page = (pageParam == null) ? 0 : pageParam.Value-1;
+            int pageSize = (pageSizeParam == null) ? 10 : pageSizeParam.Value;
+            int total = 0;
+
+            var carQuery = _ctx.Car.AsQueryable();
+            if(carName != null) carQuery =  carQuery.Where(n => n.Name.ToLower().Contains(carName.ToLower()));
+            carQuery = carQuery.Skip(pageSize*page).Take(pageSize);
+
+            total = carQuery.Count();
+            
+            var carListResponse = carQuery.ToList();
             var carList = new List<CarDto>();
             foreach (var item in carListResponse)
             {
@@ -37,8 +47,9 @@ namespace CarSee.Services.CarService
                 carList.Add(carItem);
             }
 
-            return carList;
+            return (carList, total);
         }
+
 
         public CarDto GetDetailCar(Guid carId)
         {
@@ -78,7 +89,8 @@ namespace CarSee.Services.CarService
                     Condition = car.Condition,
                     Description = car.Description,
                     Mileage = car.Mileage,
-                    ImageFileName = car.ImageFileName
+                    ImageFileName = car.ImageFileName,
+                    CreatedDate = DateTime.Now
                 };
 
                 _ctx.Add(carToStore);

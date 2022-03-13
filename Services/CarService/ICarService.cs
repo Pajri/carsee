@@ -6,7 +6,7 @@ namespace CarSee.Services.CarService
 {
     public interface ICarService
     {
-        public List<CarDto> GetAllCar();
+        public (List<CarDto>, int) GetCar(int? page, int? pageSize, string carName = null);
         public CarDto GetDetailCar(Guid carId);
         public CarDto InsertCar(CarDto car, Guid? id);
         public CarDto EditCar(CarDto car);

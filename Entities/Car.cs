@@ -13,7 +13,7 @@ namespace CarSee.Entities
         public string Description { get; set; }
         public int Mileage { get; set; }
         public string ImageFileName { get; set; }
-        
+        public DateTime CreatedDate { get; set; }
                 
     }
 }

@@ -35,17 +35,31 @@ namespace CarSee.Controllers
         }
 
         // GET: Car
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(int? page, int? pageSize, string carName)
         {
-            var storedCarList = _carService.GetAllCar();
-            var carListViewModel = new List<CarViewModel>();
+            var (storedCarList, total) = _carService.GetCar(page, pageSize, carName);
+            var carResponseList = new List<ExtendedCarDto>();
 
             foreach (var car in storedCarList)
             {
-                var carViewModel = CarViewModel.CreateFromCarDto(car);
-                carListViewModel.Add(carViewModel);
+                var carViewModel = ExtendedCarDto.CreateFromCarDto(car);
+                carResponseList.Add(carViewModel);
             }
-            return View(carListViewModel);
+
+            decimal _pageSize =  (pageSize == null) ? 10 : (decimal) pageSize.Value;
+            int _page =  (page == null) ? 0 : page.Value;
+            decimal _total = (decimal) total;
+
+            var CarViewModel = new CarListingViewModel
+            {
+                CarList = carResponseList,
+                PageCount = (int) Math.Ceiling(_total/_pageSize),
+                CurrentPageIndex = _page,
+                SearchParam = carName
+            };
+
+            return View(CarViewModel);
         }
 
         // GET: Car/Details/5
@@ -56,7 +70,7 @@ namespace CarSee.Controllers
             var car = _carService.GetDetailCar((Guid) id);
             if (car == null) return NotFound();
 
-            var carViewModel = CarViewModel.CreateFromCarDto(car); 
+            var carViewModel = ExtendedCarDto.CreateFromCarDto(car); 
             return View(carViewModel);
         }
 
