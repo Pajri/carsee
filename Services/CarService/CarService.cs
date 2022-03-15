@@ -5,6 +5,7 @@ using CarSee.Constants;
 using CarSee.Entities;
 using CarSee.EntityFramework;
 using System.Linq;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CarSee.Services.CarService
 {
@@ -91,7 +92,8 @@ namespace CarSee.Services.CarService
                     Description = car.Description,
                     Mileage = car.Mileage,
                     ImageFileName = car.ImageFileName,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.Now,
+                    UserId = car.UserId
                 };
 
                 _ctx.Add(carToStore);
@@ -107,7 +109,8 @@ namespace CarSee.Services.CarService
                     Condition = carToStore.Condition,
                     Description = carToStore.Description,
                     Mileage = carToStore.Mileage,
-                    ImageFileName = car.ImageFileName
+                    ImageFileName = car.ImageFileName,
+                    UserId = car.UserId
                 };
 
                 return carResult;
@@ -146,7 +149,7 @@ namespace CarSee.Services.CarService
                     Condition = storedCar.Condition,
                     Description = storedCar.Description,
                     Mileage = storedCar.Mileage,
-                    ImageFileName = storedCar.ImageFileName
+                    ImageFileName = storedCar.ImageFileName,
                 };
 
                 return updatedCar;

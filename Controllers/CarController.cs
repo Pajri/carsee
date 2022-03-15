@@ -15,6 +15,9 @@ using Microsoft.Extensions.Options;
 using CarSee.Utility.Settings;
 using CarSee.ViewModels;
 using CarSee.Utility.StorageProvider;
+using System.Security.Claims;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CarSee.Controllers
 {
@@ -23,15 +26,18 @@ namespace CarSee.Controllers
         private readonly ICarService _carService;
         private readonly IStorageProvider _storageProvider;
         private readonly StorageProviderConfig _options;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public CarController(
             ICarService carService, 
             IStorageProvider storageProvider,
-            IOptions<StorageProviderConfig> options)
+            IOptions<StorageProviderConfig> options,
+            IHttpContextAccessor httpContextAccessor)
         {
             _carService = carService;
             _storageProvider = storageProvider;
             _options = options.Value;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // GET: Car
@@ -89,6 +95,7 @@ namespace CarSee.Controllers
             [Bind("Id,Name,Price,Brand,ProductionYear,Condition,Description,Mileage,ImageFile")] CarViewModel car
         )
         {   
+            var userId = _httpContextAccessor.HttpContext.User.Identity.GetUserId();
             var carDto = new CarDto()
             {
                 Id = car.Id,
@@ -98,7 +105,8 @@ namespace CarSee.Controllers
                 ProductionYear = car.ProductionYear,
                 Condition = car.Condition,
                 Description = car.Description,
-                Mileage = car.Mileage
+                Mileage = car.Mileage,
+                UserId = userId
             };
 
            

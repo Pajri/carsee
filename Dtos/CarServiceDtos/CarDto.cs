@@ -16,7 +16,6 @@ namespace CarSee.Dtos
         public string Description { get; set; }
         public int Mileage { get; set; }
         public string ImageFileName { get; set; }
-        
-        
+        public string UserId { get; set; }
     }
 }

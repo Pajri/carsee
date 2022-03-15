@@ -1,4 +1,5 @@
 using CarSee.Entities;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarSee.EntityFramework
@@ -14,6 +15,11 @@ namespace CarSee.EntityFramework
             : base(options)
         {
 
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {            
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Car> Car {get;set;}

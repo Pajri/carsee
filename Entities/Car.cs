@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CarSee.Entities
 {
@@ -14,6 +15,7 @@ namespace CarSee.Entities
         public int Mileage { get; set; }
         public string ImageFileName { get; set; }
         public DateTime CreatedDate { get; set; }
-                
+        public string UserId { get; set; }
+
     }
 }
