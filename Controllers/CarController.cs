@@ -18,9 +18,11 @@ using CarSee.Utility.StorageProvider;
 using System.Security.Claims;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarSee.Controllers
 {
+    [Authorize(Roles = Constants.Roles.ROLE_ADMIN)]
     public class CarController : Controller
     {
         private readonly ICarService _carService;

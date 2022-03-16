@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace CarSee.Migrations
+namespace CarSee.Migrations.ApplicationDb
 {
-    public partial class initial : Migration
+    public partial class InitialApp : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,7 +18,10 @@ namespace CarSee.Migrations
                     ProductionYear = table.Column<int>(type: "integer", nullable: false),
                     Condition = table.Column<float>(type: "real", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
-                    Mileage = table.Column<int>(type: "integer", nullable: false)
+                    Mileage = table.Column<int>(type: "integer", nullable: false),
+                    ImageFileName = table.Column<string>(type: "text", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

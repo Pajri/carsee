@@ -1,5 +1,8 @@
+using System;
+using System.Linq;
+using CarSee.Constants;
 using CarSee.Entities;
-using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarSee.EntityFramework
@@ -11,17 +14,20 @@ namespace CarSee.EntityFramework
 
         // }
 
+       
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+           
 
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {            
-            base.OnModelCreating(modelBuilder);
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
         }
 
-        public DbSet<Car> Car {get;set;}
+        public DbSet<Car> Car { get; set; }
     }
 }
