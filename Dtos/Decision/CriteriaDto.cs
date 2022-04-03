@@ -8,6 +8,6 @@ namespace CarSee.Dtos
         public List<ICriteria> SecondaryFactor { get; set; }
 
         public float CoreFactorRate {get;set;}
-        public float SecondaryFactorrate {get;set;}
+        public float SecondaryFactorRate {get;set;}
     }
 }

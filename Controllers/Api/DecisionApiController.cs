@@ -20,30 +20,14 @@ namespace CarSee.Controllers.Api
         }
         
         [HttpGet]
-        public async Task<CarApiListingViewModel> ProfileMatching(CriteriaRequestDto criteria, List<CarDto> carList)
+        public async Task<List<CarDto>> ProfileMatching(DecisionRequestDto dto, List<CarDto> carList)
         {
-            
-           
-            List<ICriteria> core = new List<ICriteria>();
-            core.Add(new PriceCriteria(criteria.Price));
-            core.Add(new YearMadeCriteria(criteria.YearMade));
-            core.Add(new ConditionCriteria(criteria.Condition));
+            var criteriaDto = _service.CreateCriteriaDto(dto);
+            var carDecisionList = _service.CreateCarDecisionDto(carList);
 
-            List<ICriteria> secondary = new List<ICriteria>();
-            secondary.Add(new BrandCriteria(criteria.Brand));
-            secondary.Add(new MileageCriteria(criteria.Mileage));
-
-            CriteriaDto criteriaDto = new CriteriaDto()
-            {
-                CoreFactor = core,
-                SecondaryFactor = secondary,
-                CoreFactorRate = 0.6f,
-                SecondaryFactorrate = 0.4f
-            };
-
-            _service.ProfileMatching(criteriaDto, carList);
-            
-           return null;
+            var result = _service.ProfileMatching(criteriaDto, carDecisionList);
+ 
+            return await Task.FromResult<List<CarDto>>(result);
         }
     }
 }

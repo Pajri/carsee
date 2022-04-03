@@ -21,5 +21,6 @@ namespace CarSee.Dtos
 
         public abstract int MapCriteria();
         public abstract int CalculateGap();
+        public abstract int CalculateGap(int val);
     }
 }

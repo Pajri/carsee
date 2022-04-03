@@ -21,6 +21,11 @@ namespace CarSee.Dtos
             return this.MapCriteria() - this.Standard;
         }
 
+        public override int CalculateGap(int val)
+        {
+            return  val-Standard;
+        }
+
         public override int MapCriteria()
         {
             if(this.Value > 0.9) return 5;
