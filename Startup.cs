@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CarSee.EntityFramework;
 using CarSee.Services.CarService;
+using CarSee.Services.DecisionService;
 using CarSee.Utility.Settings;
 using CarSee.Utility.StorageProvider;
 using Microsoft.AspNetCore.Builder;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using MyNamespace;
 
 namespace CarSee
 {
@@ -41,9 +43,12 @@ namespace CarSee
                 options => options.UseNpgsql(connectionString));
 
             services.AddScoped<IStorageProvider, LocalStorageProvider>();
+            services.AddScoped<IDecisionService, DecisionService>();
 
             services.Configure<StorageProviderConfig>(options => Configuration.GetSection("StorageProvider").Bind(options));
             services.AddRazorPages();
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +67,12 @@ namespace CarSee
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+            
             app.UseRouting();
 
             app.UseAuthentication();
