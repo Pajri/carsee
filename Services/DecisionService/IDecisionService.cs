@@ -5,7 +5,7 @@ namespace CarSee.Services.DecisionService
 {
     public interface IDecisionService
     {
-        public List<CarDto> ProfileMatching(CriteriaDto criteria, List<CarDecisionDto> carList);
+        public List<CarDecisionDto> ProfileMatching(CriteriaDto criteria, List<CarDecisionDto> carList);
         public CriteriaDto CreateCriteriaDto(DecisionRequestDto dto);
         public List<CarDecisionDto> CreateCarDecisionDto(List<CarDto> carList);
     }

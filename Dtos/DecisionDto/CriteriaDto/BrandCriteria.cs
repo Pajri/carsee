@@ -16,18 +16,15 @@ namespace CarSee.Dtos
         public BrandCriteria(string value) : base(value)
         {
             this.Value = value;
-            this.Standard = 5;
-            this.Gap = this.CalculateGap();
         }
-
-        public override int CalculateGap()
-        {
-            return this.MapCriteria() - this.Standard;
-        }
-
         public override int CalculateGap(int val)
         {
-            return  val-Standard;
+            this.Gap = val-this.MapCriteria();
+            return  this.Gap;
+        }
+        public override string GetValue()
+        {
+            return this.Value;
         }
 
         public override int MapCriteria()

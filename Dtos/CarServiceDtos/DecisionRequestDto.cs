@@ -8,6 +8,6 @@ namespace CarSee.Dtos
    {
        public List<CarDto> CarList { get; set; }
        
-       public CriteriaRequestDto Criterna {get; set; }
+       public CriteriaRequestDto Criteria {get; set; }
    }
 }

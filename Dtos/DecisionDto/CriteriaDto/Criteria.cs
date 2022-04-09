@@ -2,12 +2,13 @@ using System.Collections.Generic;
 
 namespace CarSee.Dtos
 {
-    public abstract class Criteria<T> : ICriteria
+    public abstract class Criteria<T> : ICriteria<T>
     {
         public T Value { get; set; }
-        protected int Standard { get; set; }
         public int Gap { get; set; }
-        public int MappedGap { get; set; }
+        public float MappedGap { get; set;}
+        
+        
         
         public Dictionary<int, float> GapMapping = new Dictionary<int, float>
         {
@@ -20,7 +21,12 @@ namespace CarSee.Dtos
         }
 
         public abstract int MapCriteria();
-        public abstract int CalculateGap();
         public abstract int CalculateGap(int val);
+        public abstract T GetValue();
+
+        public void ConvertGap()
+        {
+            this.MappedGap = this.GapMapping[this.Gap];
+        }
     }
 }

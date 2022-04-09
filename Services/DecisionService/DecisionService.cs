@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using CarSee.Dtos;
 using CarSee.Services.DecisionService;
 
@@ -6,24 +7,64 @@ namespace MyNamespace
 {
     public class DecisionService : IDecisionService
     {
-        public List<CarDto> ProfileMatching(CriteriaDto criteria, List<CarDecisionDto> carList)
+        public List<CarDecisionDto> ProfileMatching(CriteriaDto criteria, List<CarDecisionDto> carList)
         {
             
-            return null;
+            foreach (var car in carList)
+            {
+                /*calculate gap*/
+                //core 
+                // car.PriceCriteria
+                //     .CalculateGap(criteria.CoreFactor.PriceCriteria.MapCriteria());
+                // car.YearMadeCriteria
+                //     .CalculateGap(criteria.CoreFactor.YearMadeCriteria.MapCriteria());
+                // car.ConditionCriteria
+                //     .CalculateGap(criteria.CoreFactor.ConditionCriteria.MapCriteria());
+
+                car.PriceCriteria.Gap = criteria.CoreFactor
+                    .PriceCriteria.CalculateGap(car.PriceCriteria.MapCriteria());
+                car.YearMadeCriteria.Gap = criteria.CoreFactor
+                    .YearMadeCriteria.CalculateGap(car.YearMadeCriteria.MapCriteria());
+                car.ConditionCriteria.Gap = criteria.CoreFactor
+                    .ConditionCriteria.CalculateGap(car.ConditionCriteria.MapCriteria());
+                    
+                //secondary
+                // car.BrandCriteria
+                //     .CalculateGap(criteria.SecondaryFactor.BrandCriteria.MapCriteria());
+                // car.MileageCriteria
+                //     .CalculateGap(criteria.SecondaryFactor.MileageCriteria.MapCriteria());
+
+                car.BrandCriteria.Gap = criteria.SecondaryFactor
+                    .BrandCriteria.CalculateGap(car.BrandCriteria.MapCriteria());
+                car.MileageCriteria.Gap = criteria.SecondaryFactor
+                    .MileageCriteria.CalculateGap(car.MileageCriteria.MapCriteria());
+
+                /*calculate ncf and nsf*/
+                car.NCF = (car.PriceCriteria.MappedGap + car.YearMadeCriteria.MappedGap + car.ConditionCriteria.MappedGap)/3;
+                car.NSF = (car.BrandCriteria.MappedGap + car.MileageCriteria.MappedGap);
+
+                /*calclate NT*/
+                car.NT = criteria.CoreFactorRate*car.NCF + criteria.SecondaryFactorRate*car.NSF;
+            }
+
+            return  carList.OrderByDescending(o => o.NT).ToList();
         }
 
         public CriteriaDto CreateCriteriaDto(DecisionRequestDto dto)
         {
             CriteriaDto criteriaDto = new CriteriaDto();
-            criteriaDto.CoreFactor = new List<ICriteria>();
-            criteriaDto.SecondaryFactor = new List<ICriteria>();
+            criteriaDto.CoreFactor = new CoreFactor()
+            {
+                ConditionCriteria = new ConditionCriteria(dto.Criteria.Condition),
+                PriceCriteria = new PriceCriteria(dto.Criteria.Price),
+                YearMadeCriteria = new YearMadeCriteria(dto.Criteria.YearMade)
+            };
 
-            criteriaDto.CoreFactor.Add(new PriceCriteria(dto.Criterna.Price));
-            criteriaDto.CoreFactor.Add(new YearMadeCriteria(dto.Criterna.YearMade));
-            criteriaDto.CoreFactor.Add(new ConditionCriteria(dto.Criterna.Condition));
-
-            criteriaDto.SecondaryFactor.Add(new BrandCriteria(dto.Criterna.Brand));
-            criteriaDto.SecondaryFactor.Add(new MileageCriteria(dto.Criterna.Mileage));
+            criteriaDto.SecondaryFactor = new SecondaryFactor
+            {
+                BrandCriteria = new BrandCriteria(dto.Criteria.Brand),
+                MileageCriteria = new MileageCriteria(dto.Criteria.Mileage)
+            };
 
             criteriaDto.CoreFactorRate = 0.6f;
             criteriaDto.SecondaryFactorRate = 0.4f;
@@ -47,16 +88,14 @@ namespace MyNamespace
                     Description = car.Description,
                     Mileage = car.Mileage,
                     ImageFileName = car.ImageFileName,
-                    UserId = car.UserId,
-                    Criteria = new List<ICriteria>()
+                    UserId = car.UserId
                 };
 
-                
-                carDecision.Criteria.Add(new PriceCriteria(car.Price));
-                carDecision.Criteria.Add(new YearMadeCriteria(car.ProductionYear));
-                carDecision.Criteria.Add(new ConditionCriteria(car.Condition));
-                carDecision.Criteria.Add(new BrandCriteria(car.Brand));
-                carDecision.Criteria.Add(new MileageCriteria(car.Mileage));
+                carDecision.PriceCriteria = new PriceCriteria(car.Price);
+                carDecision.YearMadeCriteria = new YearMadeCriteria(car.ProductionYear);
+                carDecision.ConditionCriteria = new ConditionCriteria(car.Condition);
+                carDecision.BrandCriteria = new BrandCriteria(car.Brand);
+                carDecision.MileageCriteria = new MileageCriteria(car.Mileage);
 
                 carDecisionList.Add(carDecision);
 

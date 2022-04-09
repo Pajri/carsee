@@ -5,18 +5,17 @@ namespace CarSee.Dtos
         public PriceCriteria(double value) : base(value)
         {
             this.Value = value;
-            this.Standard = 3;
-            this.Gap = this.CalculateGap();
-        }
-
-        public override int CalculateGap()
-        {
-            return this.MapCriteria() - this.Standard;
         }
 
         public override int CalculateGap(int val)
         {
-            return  val-Standard;
+            this.Gap = val-this.MapCriteria();
+            return  this.Gap;
+        }
+
+        public override double GetValue()
+        {
+            return this.Value;
         }
 
         public override int MapCriteria()

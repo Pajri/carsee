@@ -19,15 +19,15 @@ namespace CarSee.Controllers.Api
             _service = service;
         }
         
-        [HttpGet]
-        public async Task<List<CarDto>> ProfileMatching(DecisionRequestDto dto, List<CarDto> carList)
+        [HttpPost]
+        public async Task<List<CarDecisionDto>> ProfileMatching(DecisionRequestDto dto)
         {
             var criteriaDto = _service.CreateCriteriaDto(dto);
-            var carDecisionList = _service.CreateCarDecisionDto(carList);
+            var carDecisionList = _service.CreateCarDecisionDto(dto.CarList);
 
             var result = _service.ProfileMatching(criteriaDto, carDecisionList);
  
-            return await Task.FromResult<List<CarDto>>(result);
+            return await Task.FromResult<List<CarDecisionDto>>(result);
         }
     }
 }

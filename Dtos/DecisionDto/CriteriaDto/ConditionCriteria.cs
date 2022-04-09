@@ -12,18 +12,17 @@ namespace CarSee.Dtos
         public ConditionCriteria(float value) : base(value)
         {
             this.Value = value;
-            this.Standard = 4;
-            this.Gap = this.MapCriteria() - this.CalculateGap();
-        }
-
-        public override int CalculateGap()
-        {
-            return this.MapCriteria() - this.Standard;
         }
 
         public override int CalculateGap(int val)
         {
-            return  val-Standard;
+            this.Gap = val-this.MapCriteria();
+            return  this.Gap;
+        }
+
+        public override float GetValue()
+        {
+            return this.Value;
         }
 
         public override int MapCriteria()
