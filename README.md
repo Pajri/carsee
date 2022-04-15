@@ -2,7 +2,6 @@
 
 **Decision**
 ----
-  <_Additional information about your API call. Try to use verbs that match both request type (fetching vs modifying) and plurality (one vs multiple)._>
 
 * **URL**
 
@@ -25,20 +24,20 @@
             {
                 "name": "uuid|not available yet",
                 "name": "string",
-                "price": int,
+                "price": "int",
                 "brand": "string",
-                "productionYear": int,
-                "condition": float,
+                "productionYear": "int",
+                "condition": "float",
                 "description": "string",
-                "mileage": int
+                "mileage": "int"
             }
         ],
         "criteria": {
-            "mileage": int,
-            "condition": float,
-            "yearMade": int,
+            "mileage": "int",
+            "condition": "float",
+            "yearMade": "int",
             "brand": "string",
-            "price": int
+            "price": "int"
         }
     ```
 
@@ -73,6 +72,66 @@
 
   * **Code:** 422 UNPROCESSABLE ENTRY <br />
     **Content:** `{ error : "Email Invalid" }`
+    
+* **Sample Request:**
+  ```json
+  {
+    "carList": [
+      {
+        "name": "Yaris",
+        "price": 140000000,
+        "brand": "Toyota",
+        "productionYear": 2011,
+        "condition": 0.9,
+        "description": "Yaris Test",
+        "mileage": 100000
+      },
+      {
+        "name": "Ertiga",
+        "price": 120000000,
+        "brand": "Suzuki",
+        "productionYear": 2011,
+        "condition": 0.8,
+        "description": "Ertiga Test",
+        "mileage": 80000
+      },
+      {
+        "name": "Mobilio",
+        "price": 140000000,
+        "brand": "Honda",
+        "productionYear": 2015,
+        "condition": 0.9,
+        "description": "Ertiga Test",
+        "mileage": 80000
+      },
+      {
+        "name": "Wuling Confero",
+        "price": 120000000,
+        "brand": "Wuling",
+        "productionYear": 2015,
+        "condition": 0.95,
+        "description": "Wuling Test",
+        "mileage": 50000
+      },
+      {
+        "name": "Innova",
+        "price": 190000000,
+        "brand": "Toyota",
+        "productionYear": 2011,
+        "condition": 0.85,
+        "description": "Innova Test",
+        "mileage": 100000
+      }
+    ],
+    "criteria": {
+      "mileage": 80000,
+      "condition": 0.8,
+      "yearMade": 2011,
+      "brand": "Toyota",
+      "price": 150000000
+    }
+  }
+  ```
 
 =============================================
 
@@ -136,4 +195,3 @@
 
   * **Code:** 422 UNPROCESSABLE ENTRY <br />
     **Content:** `{ error : "Email Invalid" }`
-
