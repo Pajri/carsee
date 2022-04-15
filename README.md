@@ -51,12 +51,12 @@
         {
             "id": "uuid|this is still not returning id. need improvement on backend side",
             "name": "string",
-            "price": int,
+            "price": "int",
             "brand": "string",
-            "productionYear": int,
-            "condition": float,
+            "productionYear": "int",
+            "condition": "float",
             "description": "string",
-            "mileage": int,
+            "mileage": "int",
             "imageFileName": "string"
         }
     ]
