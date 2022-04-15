@@ -173,7 +173,7 @@
                 "price": "int",
                 "brand": "string",
                 "productionYear": "int",
-                "condition": float,
+                "condition": "float",
                 "description": "string",
                 "mileage": "int",
                 "imageFileName": "string"
