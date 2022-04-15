@@ -39,6 +39,7 @@
             "brand": "string",
             "price": "int"
         }
+    }
     ```
 
 * **Success Response:**
@@ -169,18 +170,18 @@
             {
                 "id": "uuid",
                 "name": "string",
-                "price": int,
+                "price": "int",
                 "brand": "string",
-                "productionYear": int,
+                "productionYear": "int",
                 "condition": float,
                 "description": "string",
-                "mileage": int,
+                "mileage": "int",
                 "imageFileName": "string"
             }  
         ],
         "searchParam": "string",
-        "pageCount": int,
-        "currentPageIndex": int
+        "pageCount": "int",
+        "currentPageIndex": "int"
     }
     ```
  
