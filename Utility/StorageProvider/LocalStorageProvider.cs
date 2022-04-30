@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
@@ -41,6 +42,25 @@ namespace CarSee.Utility.StorageProvider
                     FileName = fileName,
                     FilePath = filePath
                 };
+            }
+            catch (System.Exception)
+            {
+                 throw;
+            }
+        }
+
+        public async Task<List<SPSaveResponseDto>> Save(List<IFormFile> files, bool useUniqueFileName = false)
+        {
+            try
+            {
+                List<SPSaveResponseDto> responseList = new List<SPSaveResponseDto>();
+                foreach (var file in files)
+                {
+                    var response = await Save(file, useUniqueFileName);
+                    responseList.Add(response);
+                }
+
+                return responseList;
             }
             catch (System.Exception)
             {

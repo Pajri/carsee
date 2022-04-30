@@ -111,13 +111,15 @@ namespace CarSee.Controllers
                 UserId = userId
             };
 
-           
             if (ModelState.IsValid)
             {
                 if(car.ImageFile != null)
                 {
                     var storedImage = await _storageProvider.Save(car.ImageFile, true);
-                    carDto.ImageFileName= storedImage.FileName;
+                    var fileNameArr = storedImage.Select(si => si.FileName).ToArray();
+                    var fileNameString = String.Join(";",fileNameArr);
+
+                    carDto.ImageFileName= fileNameString;
                 }
                 
                 car.Id = Guid.NewGuid();
@@ -154,7 +156,7 @@ namespace CarSee.Controllers
                 {
                     if(car.ImageFile != null)
                     {
-                        var storedImage = await _storageProvider.Save(car.ImageFile, true);
+                        var storedImage = await _storageProvider.Save(car.ImageFile.FirstOrDefault(), true);
                         car.ImageFileName= storedImage.FileName;
                     }
                     _carService.EditCar(car);

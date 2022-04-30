@@ -136,7 +136,7 @@
 
 =============================================
 
-**Decision**
+**Car Listing**
 ----
 
 
@@ -176,7 +176,7 @@
                 "condition": "float",
                 "description": "string",
                 "mileage": "int",
-                "imageFileName": "string"
+                "imageFileName": "string | the image file name is separated by semicolon"
             }  
         ],
         "searchParam": "string",

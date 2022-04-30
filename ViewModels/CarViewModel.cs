@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using CarSee.Dtos;
+using CarSee.Extensions.Attributes;
 using Microsoft.AspNetCore.Http;
 
 namespace CarSee.ViewModels
 {
     public class CarViewModel : CarDto
     {
-        public IFormFile ImageFile { get; set; }
+        [MaxNumberOfFile(5)]
+        public List<IFormFile> ImageFile { get; set; }
 
         public static CarViewModel CreateFromCarDto(CarDto car)
         {
