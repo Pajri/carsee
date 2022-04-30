@@ -25,7 +25,9 @@ namespace CarSee.ViewModels
                 Description = car.Description,
                 Mileage = car.Mileage,
                 ImageFileName = car.ImageFileName,
-                ImageFileNames = new string[]{}
+                ImageFileNames = new string[]{},
+                SellerName = car.SellerName,
+                SellerPhoneNumber = car.SellerPhoneNumber
             };
 
             if(!car.ImageFileName.IsNullOrEmpty())

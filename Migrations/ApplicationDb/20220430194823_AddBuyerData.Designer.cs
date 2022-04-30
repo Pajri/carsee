@@ -3,15 +3,17 @@ using System;
 using CarSee.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CarSee.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220430194823_AddBuyerData")]
+    partial class AddBuyerData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,6 +28,12 @@ namespace CarSee.Migrations.ApplicationDb
                         .HasColumnType("uuid");
 
                     b.Property<string>("Brand")
+                        .HasColumnType("text");
+
+                    b.Property<string>("BuyerName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("BuyerPhoneNumber")
                         .HasColumnType("text");
 
                     b.Property<float>("Condition")
@@ -51,12 +59,6 @@ namespace CarSee.Migrations.ApplicationDb
 
                     b.Property<int>("ProductionYear")
                         .HasColumnType("integer");
-
-                    b.Property<string>("SellerName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SellerPhoneNumber")
-                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .HasColumnType("text");

@@ -17,5 +17,14 @@ namespace CarSee.Dtos
         public int Mileage { get; set; }
         public string ImageFileName { get; set; }
         public string UserId { get; set; }
+
+        [Display(Name="Seller Name")]
+        public string SellerName { get; set; }
+
+        [RegularExpression(@"(\+62 ((\d{3}([ -]\d{3,})([- ]\d{4,})?)|(\d+)))|(\(\d+\) \d+)|\d{3}( \d+)+|(\d+[ -]\d+)|\d+",
+                            ErrorMessage = "Invalid phone number format")]
+        
+        [Display(Name="Seller Phone Number")]
+        public string SellerPhoneNumber { get; set; }
     }
 }

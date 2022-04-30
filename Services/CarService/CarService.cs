@@ -43,7 +43,9 @@ namespace CarSee.Services.CarService
                     Condition = item.Condition,
                     Description = item.Description,
                     Mileage = item.Mileage,
-                    ImageFileName = item.ImageFileName
+                    ImageFileName = item.ImageFileName,
+                    SellerName = item.SellerName,
+                    SellerPhoneNumber = item.SellerPhoneNumber
                 };
 
                 carList.Add(carItem);
@@ -68,7 +70,9 @@ namespace CarSee.Services.CarService
                 Condition = car.Condition,
                 Description = car.Description,
                 Mileage = car.Mileage,
-                ImageFileName = car.ImageFileName
+                ImageFileName = car.ImageFileName,
+                SellerName = car.SellerName,
+                SellerPhoneNumber = car.SellerPhoneNumber
             };
 
             return carDto;
@@ -93,7 +97,9 @@ namespace CarSee.Services.CarService
                     Mileage = car.Mileage,
                     ImageFileName = car.ImageFileName,
                     CreatedDate = DateTime.Now,
-                    UserId = car.UserId
+                    UserId = car.UserId,
+                    SellerName = car.SellerName,
+                    SellerPhoneNumber = car.SellerPhoneNumber
                 };
 
                 _ctx.Add(carToStore);
@@ -136,6 +142,8 @@ namespace CarSee.Services.CarService
                 storedCar.Condition = car.Condition;
                 storedCar.Description = car.Description;
                 storedCar.Mileage = car.Mileage;
+                storedCar.SellerName = car.SellerName;
+                storedCar.SellerPhoneNumber =  car.SellerPhoneNumber;
 
                 _ctx.Update(storedCar);
                 _ctx.SaveChanges();
@@ -150,6 +158,8 @@ namespace CarSee.Services.CarService
                     Description = storedCar.Description,
                     Mileage = storedCar.Mileage,
                     ImageFileName = storedCar.ImageFileName,
+                    SellerName = storedCar.SellerName,
+                    SellerPhoneNumber = storedCar.SellerPhoneNumber
                 };
 
                 return updatedCar;
@@ -184,7 +194,9 @@ namespace CarSee.Services.CarService
                 Condition = storedCar.Condition,
                 Description = storedCar.Description,
                 Mileage = storedCar.Mileage,
-                ImageFileName = storedCar.ImageFileName
+                ImageFileName = storedCar.ImageFileName,
+                SellerName = storedCar.SellerName,
+                SellerPhoneNumber = storedCar.SellerPhoneNumber
             };
 
             return car;

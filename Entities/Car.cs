@@ -18,5 +18,8 @@ namespace CarSee.Entities
         public DateTime CreatedDate { get; set; }
         public string UserId { get; set; }
 
+        public string SellerName { get; set; }
+        public string SellerPhoneNumber { get; set; }
+
     }
 }

@@ -78,8 +78,7 @@ namespace CarSee.Controllers
             var car = _carService.GetDetailCar((Guid) id);
             if (car == null) return NotFound();
 
-            var carDto = ExtendedCarDto.CreateFromCarDto(car); 
-            var carViewModel = CarViewModel.CreateFromCarDto(carDto);
+            var carViewModel = CarViewModel.CreateFromCarDto(car);
             return View(carViewModel);
         }
 
@@ -95,7 +94,7 @@ namespace CarSee.Controllers
         [HttpPost]  
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("Id,Name,Price,Brand,ProductionYear,Condition,Description,Mileage,ImageFile")] CarViewModel car
+            [Bind("Id,Name,Price,Brand,ProductionYear,Condition,Description,Mileage,ImageFile,SellerName,SellerPhoneNumber")] CarViewModel car
         )
         {   
             var userId = _httpContextAccessor.HttpContext.User.Identity.GetUserId();
@@ -110,7 +109,10 @@ namespace CarSee.Controllers
                                                //not sure why input range always return int instead of float
                 Description = car.Description,
                 Mileage = car.Mileage,
-                UserId = userId
+                UserId = userId,
+
+                SellerName = car.SellerName,
+                SellerPhoneNumber = car.SellerPhoneNumber
             };
 
             if (ModelState.IsValid)
@@ -149,7 +151,7 @@ namespace CarSee.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Price,Brand,ProductionYear,Condition,Description,Mileage,ImageFile")] CarViewModel car)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Price,Brand,ProductionYear,Condition,Description,Mileage,ImageFile,SellerName,SellerPhoneNumber")] CarViewModel car)
         {
             if (id != car.Id) return NotFound();
             var userId = _httpContextAccessor.HttpContext.User.Identity.GetUserId();
@@ -164,7 +166,10 @@ namespace CarSee.Controllers
                                                //not sure why input range always return int instead of float
                 Description = car.Description,
                 Mileage = car.Mileage,
-                UserId = userId
+                UserId = userId,
+
+                SellerName = car.SellerName,
+                SellerPhoneNumber = car.SellerPhoneNumber
             };
 
             if (ModelState.IsValid)
