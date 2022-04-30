@@ -6,6 +6,7 @@ using CarSee.Services.CarService;
 using CarSee.Services.DecisionService;
 using CarSee.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace CarSee.Controllers.Api
 {
@@ -26,8 +27,26 @@ namespace CarSee.Controllers.Api
             var carDecisionList = _service.CreateCarDecisionDto(dto.CarList);
 
             var result = _service.ProfileMatching(criteriaDto, carDecisionList);
- 
+            
+            var decisionResultDto = new DecisionResultDto
+            {
+                Id = Guid.NewGuid(),
+                Result = JsonConvert.SerializeObject(result)
+            };
+
+            _service.SaveResult(decisionResultDto);
+
             return await Task.FromResult<List<CarDecisionDto>>(result);
         }
+
+        [HttpGet]
+        public async Task<List<CarDecisionDto>> GetDecisionById([FromQuery] Guid id)
+        {
+            var result = _service.GetResult(id);
+
+            return await Task.FromResult<List<CarDecisionDto>>(result);
+        }
+
+        
     }
 }

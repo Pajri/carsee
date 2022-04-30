@@ -1,12 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using CarSee.Dtos;
+using CarSee.EntityFramework;
 using CarSee.Services.DecisionService;
+using CarSee.Entities;
+using System;
+using Newtonsoft.Json;
 
 namespace MyNamespace
 {
     public class DecisionService : IDecisionService
     {
+        private ApplicationDbContext _ctx;
+        public DecisionService(ApplicationDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+
         public List<CarDecisionDto> ProfileMatching(CriteriaDto criteria, List<CarDecisionDto> carList)
         {
             
@@ -103,5 +113,26 @@ namespace MyNamespace
             return carDecisionList;
         }
 
+        public void SaveResult(DecisionResultDto result)
+        {
+            Guid id = Guid.NewGuid();
+            if(result.Id != Guid.Empty) id = result.Id;
+            var decisionResult = new DecisionResult()
+            {
+                Id = id,
+                Result = result.Result
+            };
+            _ctx.Add(decisionResult);
+            _ctx.SaveChanges();
+        }
+
+        public List<CarDecisionDto> GetResult(Guid id)
+        {
+            var result = _ctx.DecisionResults.Where(d => d.Id == id).FirstOrDefault();
+            if(result == null) return null;
+
+            var decisionResult = JsonConvert.DeserializeObject<List<CarDecisionDto>>(result.Result);
+            return decisionResult;
+        }
     }
 }

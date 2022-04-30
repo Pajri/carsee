@@ -14,12 +14,12 @@ namespace CarSee.EntityFramework
 
         // }
 
-       
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-           
+
 
         }
 
@@ -29,5 +29,6 @@ namespace CarSee.EntityFramework
         }
 
         public DbSet<Car> Car { get; set; }
+        public DbSet<DecisionResult> DecisionResults { get; set; }
     }
 }
