@@ -1,0 +1,11 @@
+@model string []
+
+<div class="col-md-12 text-center">
+    @if (Model != null)
+    {
+        @foreach (var item in Model)
+        {
+            <img src="/api/image/@item" class="col-md-3 my-2" alt="image">
+        }
+    }
+</div>

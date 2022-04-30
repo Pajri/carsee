@@ -10,7 +10,8 @@
     <h4>Car</h4>
     <hr />
     <dl class="row">
-        <img src="/api/image/@Model.ImageFileName" alt="image">
+        @await Html.PartialAsync("_ShowImagePartial", Model.ImageFileNames)
+        
         <br />
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Name)

@@ -66,7 +66,7 @@ namespace CarSee.Controllers
                 CurrentPageIndex = _page,
                 SearchParam = carName
             };
-
+ 
             return View(CarViewModel);
         }
 
@@ -78,7 +78,8 @@ namespace CarSee.Controllers
             var car = _carService.GetDetailCar((Guid) id);
             if (car == null) return NotFound();
 
-            var carViewModel = ExtendedCarDto.CreateFromCarDto(car); 
+            var carDto = ExtendedCarDto.CreateFromCarDto(car); 
+            var carViewModel = CarViewModel.CreateFromCarDto(carDto);
             return View(carViewModel);
         }
 
@@ -105,7 +106,8 @@ namespace CarSee.Controllers
                 Price = car.Price,
                 Brand = car.Brand,
                 ProductionYear = car.ProductionYear,
-                Condition = car.Condition,
+                Condition = car.Condition/100, //special case from razor page. 
+                                               //not sure why input range always return int instead of float
                 Description = car.Description,
                 Mileage = car.Mileage,
                 UserId = userId
@@ -138,6 +140,7 @@ namespace CarSee.Controllers
             if (car == null) return NotFound();
 
             var carViewModel = CarViewModel.CreateFromCarDto(car);
+
             return View(carViewModel);
         }
 
@@ -149,6 +152,20 @@ namespace CarSee.Controllers
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Price,Brand,ProductionYear,Condition,Description,Mileage,ImageFile")] CarViewModel car)
         {
             if (id != car.Id) return NotFound();
+            var userId = _httpContextAccessor.HttpContext.User.Identity.GetUserId();
+            var carDto = new CarDto()
+            {
+                Id = car.Id,
+                Name = car.Name,
+                Price = car.Price,
+                Brand = car.Brand,
+                ProductionYear = car.ProductionYear,
+                Condition = car.Condition/100, //special case from razor page. 
+                                               //not sure why input range always return int instead of float
+                Description = car.Description,
+                Mileage = car.Mileage,
+                UserId = userId
+            };
 
             if (ModelState.IsValid)
             {
@@ -157,9 +174,9 @@ namespace CarSee.Controllers
                     if(car.ImageFile != null)
                     {
                         var storedImage = await _storageProvider.Save(car.ImageFile.FirstOrDefault(), true);
-                        car.ImageFileName= storedImage.FileName;
+                        carDto.ImageFileName= storedImage.FileName;
                     }
-                    _carService.EditCar(car);
+                    _carService.EditCar(carDto);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

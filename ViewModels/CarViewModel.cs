@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using CarSee.Dtos;
 using CarSee.Extensions.Attributes;
+using CarSee.Extensions.Util;
 using Microsoft.AspNetCore.Http;
 
 namespace CarSee.ViewModels
@@ -9,6 +10,7 @@ namespace CarSee.ViewModels
     {
         [MaxNumberOfFile(5)]
         public List<IFormFile> ImageFile { get; set; }
+        public string[] ImageFileNames { get; set; }
 
         public static CarViewModel CreateFromCarDto(CarDto car)
         {
@@ -22,8 +24,12 @@ namespace CarSee.ViewModels
                 Condition = car.Condition,
                 Description = car.Description,
                 Mileage = car.Mileage,
-                ImageFileName = car.ImageFileName
+                ImageFileName = car.ImageFileName,
+                ImageFileNames = new string[]{}
             };
+
+            if(!car.ImageFileName.IsNullOrEmpty())
+                carResponse.ImageFileNames = car.ImageFileName.Split(';');
 
             return carResponse;
         }
