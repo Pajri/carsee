@@ -20,7 +20,7 @@ namespace CarSee.Dtos
         
         public float NSF { get; set; }
         public float NT { get; set; }
-        
+        public string MatchingLabel { get; set; }
         
         
         

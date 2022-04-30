@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using CarSee.Extensions.Attributes;
 
 namespace CarSee.Dtos
 {
@@ -15,6 +16,8 @@ namespace CarSee.Dtos
         public float Condition { get; set; }
         public string Description { get; set; }
         public int Mileage { get; set; }
+
+        [MaxNumberOfFileName(5)]
         public string ImageFileName { get; set; }
         public string UserId { get; set; }
 

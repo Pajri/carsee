@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CarSee.Dtos;
 using CarSee.Services.CarService;
 using CarSee.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarSee.Controllers.Api
@@ -36,6 +37,18 @@ namespace CarSee.Controllers.Api
             };
 
             return carViewModel;
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<CarApiDto> Post(CarApiDto car)
+        {
+            CarDto _car = car as CarDto;
+            var result = _carService.InsertCar(_car,null);
+
+            var carApiResponseDto = result as CarApiDto;
+            return carApiResponseDto;
         }
     }
 }

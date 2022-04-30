@@ -6,6 +6,7 @@ using CarSee.Services.DecisionService;
 using CarSee.Entities;
 using System;
 using Newtonsoft.Json;
+using CarSee.Constants;
 
 namespace MyNamespace
 {
@@ -24,37 +25,39 @@ namespace MyNamespace
             {
                 /*calculate gap*/
                 //core 
-                // car.PriceCriteria
-                //     .CalculateGap(criteria.CoreFactor.PriceCriteria.MapCriteria());
-                // car.YearMadeCriteria
-                //     .CalculateGap(criteria.CoreFactor.YearMadeCriteria.MapCriteria());
-                // car.ConditionCriteria
-                //     .CalculateGap(criteria.CoreFactor.ConditionCriteria.MapCriteria());
-
                 car.PriceCriteria.Gap = criteria.CoreFactor
                     .PriceCriteria.CalculateGap(car.PriceCriteria.MapCriteria());
+                car.PriceCriteria.ConvertGap();
+
                 car.YearMadeCriteria.Gap = criteria.CoreFactor
                     .YearMadeCriteria.CalculateGap(car.YearMadeCriteria.MapCriteria());
+                car.YearMadeCriteria.ConvertGap();
+
                 car.ConditionCriteria.Gap = criteria.CoreFactor
                     .ConditionCriteria.CalculateGap(car.ConditionCriteria.MapCriteria());
-                    
-                //secondary
-                // car.BrandCriteria
-                //     .CalculateGap(criteria.SecondaryFactor.BrandCriteria.MapCriteria());
-                // car.MileageCriteria
-                //     .CalculateGap(criteria.SecondaryFactor.MileageCriteria.MapCriteria());
+                car.ConditionCriteria.ConvertGap();
 
+                //secondary
                 car.BrandCriteria.Gap = criteria.SecondaryFactor
                     .BrandCriteria.CalculateGap(car.BrandCriteria.MapCriteria());
+                car.BrandCriteria.ConvertGap();
+
                 car.MileageCriteria.Gap = criteria.SecondaryFactor
                     .MileageCriteria.CalculateGap(car.MileageCriteria.MapCriteria());
+                car.MileageCriteria.ConvertGap();
 
                 /*calculate ncf and nsf*/
                 car.NCF = (car.PriceCriteria.MappedGap + car.YearMadeCriteria.MappedGap + car.ConditionCriteria.MappedGap)/3;
-                car.NSF = (car.BrandCriteria.MappedGap + car.MileageCriteria.MappedGap);
+                car.NSF = (car.BrandCriteria.MappedGap + car.MileageCriteria.MappedGap)/2;
 
                 /*calclate NT*/
                 car.NT = criteria.CoreFactorRate*car.NCF + criteria.SecondaryFactorRate*car.NSF;
+
+                if(car.NT >=5) car.MatchingLabel = MatchingLabels.MATCHING_SANGAT_COCOK;
+                else if(car.NT >= 4) car.MatchingLabel = MatchingLabels.MATCHING_COCOK;
+                else if(car.NT >= 3) car.MatchingLabel = MatchingLabels.MATCHING_CUKUP_COCOK;
+                else car.MatchingLabel = MatchingLabels.MATCHING_KURANG_COCOK;
+
             }
 
             return  carList.OrderByDescending(o => o.NT).ToList();
