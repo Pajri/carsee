@@ -196,7 +196,7 @@
 
 * **Data Params**
 
-    ```json
+    ```
     type : form data
     key : file
     ```
@@ -265,13 +265,13 @@
   
 *  **URL Params**
 
-   **Optional:**
+  **Optional:**
  
-   `page=[int|sart from 1]`
-
-   `pageSize=[int|default=10]`
-   
-   `carName=[string]`
+  ```
+  page=[int|sart from 1]
+  pageSize=[int|default=10]
+  carName=[string]
+  ```
 
 
 * **Success Response:**
