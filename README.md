@@ -24,7 +24,6 @@
     {
         "carList": [
             {
-                "name": "uuid|not available yet",
                 "name": "string",
                 "price": "int",
                 "brand": "string",
@@ -51,7 +50,6 @@
     ```json
     [
         {
-            "id": "uuid|this is still not returning id. need improvement on backend side",
             "name": "string",
             "price": "int",
             "brand": "string",
@@ -156,7 +154,6 @@
     ```json
     [
         {
-            "id": "uuid|this is still not returning id. need improvement on backend side",
             "name": "string",
             "price": "int",
             "brand": "string",
