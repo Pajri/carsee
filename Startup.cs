@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CarSee.EntityFramework;
 using CarSee.Services.CarService;
 using CarSee.Services.DecisionService;
+using CarSee.Services.FeedbackService;
 using CarSee.Utility.Settings;
 using CarSee.Utility.StorageProvider;
 using Microsoft.AspNetCore.Builder;
@@ -17,7 +18,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using MyNamespace;
 
 namespace CarSee
 {
@@ -37,6 +37,7 @@ namespace CarSee
             services.AddControllersWithViews();
 
             services.AddScoped<ICarService, CarService>();
+            services.AddScoped<IFeedbackService, FeedbackService>();
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(

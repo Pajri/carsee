@@ -23,5 +23,6 @@ namespace CarSee.EntityFramework
 
         public DbSet<Car> Car { get; set; }
         public DbSet<DecisionResult> DecisionResults { get; set; }
+        public DbSet<Feedback> Feedback { get; set; }
     }
 }

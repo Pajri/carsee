@@ -8,7 +8,7 @@ using System;
 using Newtonsoft.Json;
 using CarSee.Constants;
 
-namespace MyNamespace
+namespace CarSee.Services.DecisionService
 {
     public class DecisionService : IDecisionService
     {
