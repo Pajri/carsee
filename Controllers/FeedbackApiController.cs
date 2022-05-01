@@ -30,5 +30,24 @@ namespace CarSee.Controllers.Api
 
             return result;
         }
+
+        [HttpGet]
+        public async Task<List<FeedbackApiDto>> Get()
+        {
+            var result = await _feedbackService.GetAllFeedback();
+
+            List<FeedbackApiDto> feedbackList = new List<FeedbackApiDto>();
+            foreach (var feedback in result)
+            {
+                feedbackList.Add(new FeedbackApiDto
+                {
+                    Id = feedback.Id,
+                    Comment = feedback.Comment,
+                    Rating = feedback.Rating
+                });
+            }
+
+            return feedbackList;
+        }
     }
 }

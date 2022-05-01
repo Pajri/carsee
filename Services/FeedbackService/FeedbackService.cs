@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarSee.Dtos;
 using CarSee.Entities;
@@ -34,6 +35,23 @@ namespace CarSee.Services.FeedbackService
 
                 throw;
             }
+
+        }
+
+        public async Task<List<FeedbackDto>> GetAllFeedback()
+        {
+            List<FeedbackDto> feedbacklist = new List<FeedbackDto>();
+            foreach (var feedback in _ctx.Feedback)
+            {
+                feedbacklist.Add(new FeedbackDto
+                {
+                    Id = feedback.Id,
+                    Comment = feedback.Comment,
+                    Rating = feedback.Rating
+                });
+            };
+
+            return await Task.FromResult<List<FeedbackDto>>(feedbacklist);
 
         }
     }

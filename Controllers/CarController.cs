@@ -19,6 +19,10 @@ using System.Security.Claims;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
+using QRCoder;
+using System.Drawing;
+using CarSee.Utility.QRCodeUtil;
 
 namespace CarSee.Controllers
 {
@@ -79,6 +83,14 @@ namespace CarSee.Controllers
             if (car == null) return NotFound();
 
             var carViewModel = CarViewModel.CreateFromCarDto(car);
+
+            string carJson = JsonConvert.SerializeObject(car);
+
+            Bitmap QrBitmap = QRCodeUtil.CreateQRCode(carJson); 
+            byte[] BitmapArray = BitmapToBytes(QrBitmap);
+            string QrUri = string.Format("data:image/png;base64,{0}", Convert.ToBase64String(BitmapArray));
+            ViewBag.QrCodeUri = QrUri;
+
             return View(carViewModel);
         }
 
@@ -213,6 +225,44 @@ namespace CarSee.Controllers
         {
             var car = _carService.DeleteCar(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> DownloadQRCode(Guid? id)
+        {
+            if (id == null) return NotFound();
+           
+            var car = _carService.GetDetailCar((Guid) id);
+            if (car == null) return NotFound();
+
+            string carJson = JsonConvert.SerializeObject(car);
+
+            Bitmap QrBitmap = QRCodeUtil.CreateQRCode(carJson); 
+            byte[] BitmapArray = BitmapToBytes(QrBitmap);
+            string QrUri = string.Format("data:image/png;base64,{0}", Convert.ToBase64String(BitmapArray));
+            ViewBag.QrCodeUri = QrUri;
+
+            var memoryStream = new MemoryStream();
+
+            try
+            {
+                QrBitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+                return File(memoryStream,"image/png",$"{car.Name}.png");
+            }
+            catch (System.Exception ex)
+            {   
+                memoryStream.Dispose();
+                throw ex;
+            }
+            
+        }
+
+        private Byte[] BitmapToBytes(Bitmap img)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return stream.ToArray();
+            }
         }
     }
 }
