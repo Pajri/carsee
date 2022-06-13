@@ -63,5 +63,23 @@ namespace CarSee.Controllers.Api
             };
             return response;
         }
+
+        [HttpPost]
+        [Route("delete/{id}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<CommonApiResponseDto> Post(string id)
+        {
+            var result = _carService.DeleteCar(id);
+
+            var carApiResponseDto = result as CarApiDto;
+
+            CommonApiResponseDto response = new CommonApiResponseDto
+            {
+                Status = ResponseStatus.RESPONSE_SUCCESS,
+                Data = result
+            };
+            return response;
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace CarSee.Services.CarService
         {
             _ctx = ctx;
         }
+
         public (List<CarDto>, int) GetCar(int? pageParam, int? pageSizeParam, string carName = null)
         {
             int page = (pageParam == null) ? 0 : pageParam.Value-1;
@@ -54,7 +55,6 @@ namespace CarSee.Services.CarService
             return (carList, total);
         }
 
-
         public CarDto GetDetailCar(Guid carId)
         {
             var car = _ctx.Car
@@ -77,7 +77,6 @@ namespace CarSee.Services.CarService
 
             return carDto;
         }
-
 
         public CarDto InsertCar(CarDto car, Guid? id)
         {
@@ -163,6 +162,41 @@ namespace CarSee.Services.CarService
                 };
 
                 return updatedCar;
+            }
+            catch (System.Exception ex)
+            {
+                throw;
+            }
+
+        }
+
+        public CarDto DeleteCar(string Id)
+        {
+            if (Id == null || Id == "") return null;
+
+            try
+            {
+                var storedCar = _ctx.Car.Find(new Guid(Id));
+                _ctx.Car.Remove(storedCar);
+                if (storedCar == null) throw new Exception(Common.Error.ERROR_NOT_FOUND);
+
+                _ctx.SaveChanges();
+
+                var deleted = new CarDto
+                {
+                    Id = storedCar.Id,
+                    Price = storedCar.Price,
+                    Brand = storedCar.Brand,
+                    ProductionYear = storedCar.ProductionYear,
+                    Condition = storedCar.Condition,
+                    Description = storedCar.Description,
+                    Mileage = storedCar.Mileage,
+                    ImageFileName = storedCar.ImageFileName,
+                    SellerName = storedCar.SellerName,
+                    SellerPhoneNumber = storedCar.SellerPhoneNumber
+                };
+
+                return deleted;
             }
             catch (System.Exception ex)
             {
