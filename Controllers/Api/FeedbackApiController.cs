@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CarSee.Constants;
 using CarSee.Dtos;
 using CarSee.Services.CarService;
 using CarSee.Services.FeedbackService;
@@ -23,16 +24,22 @@ namespace CarSee.Controllers.Api
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<bool> Post(FeedbackApiDto feedback)
+        public async Task<CommonApiResponseDto> Post(FeedbackApiDto feedback)
         {
             var dto = feedback as FeedbackDto;
             var result = await _feedbackService.InsertFeedback(dto);
 
-            return result;
+            CommonApiResponseDto response = new CommonApiResponseDto
+            {
+                Status = ResponseStatus.RESPONSE_SUCCESS,
+                Data = result
+            };
+
+            return response;
         }
 
         [HttpGet]
-        public async Task<List<FeedbackApiDto>> Get()
+        public async Task<CommonApiResponseDto> Get()
         {
             var result = await _feedbackService.GetAllFeedback();
 
@@ -47,7 +54,13 @@ namespace CarSee.Controllers.Api
                 });
             }
 
-            return feedbackList;
+            CommonApiResponseDto response = new CommonApiResponseDto
+            {
+                Status = ResponseStatus.RESPONSE_SUCCESS,
+                Data = feedbackList
+            };
+
+            return response;
         }
     }
 }

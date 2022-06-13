@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CarSee.Constants;
 using CarSee.Dtos;
 using CarSee.Services.CarService;
 using CarSee.Services.DecisionService;
@@ -21,7 +22,7 @@ namespace CarSee.Controllers.Api
         }
         
         [HttpPost]
-        public async Task<List<CarDecisionDto>> ProfileMatching(DecisionRequestDto dto)
+        public async Task<CommonApiResponseDto> ProfileMatching(DecisionRequestDto dto)
         {
             var criteriaDto = _service.CreateCriteriaDto(dto);
             var carDecisionList = _service.CreateCarDecisionDto(dto.CarList);
@@ -36,15 +37,27 @@ namespace CarSee.Controllers.Api
 
             _service.SaveResult(decisionResultDto);
 
-            return await Task.FromResult<List<CarDecisionDto>>(result);
+            CommonApiResponseDto response = new CommonApiResponseDto
+            {
+                Status = ResponseStatus.RESPONSE_SUCCESS,
+                Data = result
+            };
+
+            return await Task.FromResult<CommonApiResponseDto>(response);
         }
 
         [HttpGet]
-        public async Task<List<CarDecisionDto>> GetDecisionById([FromQuery] Guid id)
+        public async Task<CommonApiResponseDto> GetDecisionById([FromQuery] Guid id)
         {
             var result = _service.GetResult(id);
 
-            return await Task.FromResult<List<CarDecisionDto>>(result);
+            CommonApiResponseDto response = new CommonApiResponseDto
+            {
+                Status = ResponseStatus.RESPONSE_SUCCESS,
+                Data = result
+            };
+
+            return await Task.FromResult<CommonApiResponseDto>(response);
         }
 
         

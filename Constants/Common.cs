@@ -4,8 +4,7 @@ namespace CarSee.Constants
     {
         public static class Error
         {
-            public const string ERROR_NOT_FOUND = "ERROR_NOT_FOUND";            
-            
+            public const string ERROR_NOT_FOUND = "ERROR_NOT_FOUND";      
         }
         
         

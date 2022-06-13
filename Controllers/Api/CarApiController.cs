@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CarSee.Constants;
 using CarSee.Dtos;
 using CarSee.Services.CarService;
 using CarSee.ViewModels;
@@ -20,7 +21,7 @@ namespace CarSee.Controllers.Api
         }
         
         [HttpGet]
-        public async Task<CarApiListingViewModel> Get(int? page, int? pageSize, string carName)
+        public async Task<CommonApiResponseDto> Get(int? page, int? pageSize, string carName)
         {
             var (carList, total) = _carService.GetCar(page, pageSize, carName);
             
@@ -36,19 +37,31 @@ namespace CarSee.Controllers.Api
                 SearchParam = carName
             };
 
-            return carViewModel;
+            CommonApiResponseDto response = new CommonApiResponseDto
+            {
+                Status = ResponseStatus.RESPONSE_SUCCESS,
+                Data = carViewModel
+            };
+
+            return response;
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<CarApiDto> Post(CarApiDto car)
+        public async Task<CommonApiResponseDto> Post(CarApiDto car)
         {
             CarDto _car = car as CarDto;
             var result = _carService.InsertCar(_car,null);
 
             var carApiResponseDto = result as CarApiDto;
-            return carApiResponseDto;
+
+            CommonApiResponseDto response = new CommonApiResponseDto
+            {
+                Status = ResponseStatus.RESPONSE_SUCCESS,
+                Data = carApiResponseDto
+            };
+            return response;
         }
     }
 }
