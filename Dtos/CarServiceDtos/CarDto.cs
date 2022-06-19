@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using CarSee.Extensions.Attributes;
+using Newtonsoft.Json.Linq;
 
 namespace CarSee.Dtos
 {
@@ -19,6 +20,8 @@ namespace CarSee.Dtos
 
         [MaxNumberOfFileName(5)]
         public string ImageFileName { get; set; }
+        public string[] ImageFileNameArr { get; set; }
+
         public string UserId { get; set; }
 
         [Display(Name="Seller Name")]

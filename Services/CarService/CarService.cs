@@ -6,6 +6,8 @@ using CarSee.Entities;
 using CarSee.EntityFramework;
 using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace CarSee.Services.CarService
 {
@@ -48,6 +50,16 @@ namespace CarSee.Services.CarService
                     SellerName = item.SellerName,
                     SellerPhoneNumber = item.SellerPhoneNumber
                 };
+
+                bool isJsonValid = true;
+                try
+                {
+                    carItem.ImageFileNameArr = JsonConvert.DeserializeObject<string[]>(carItem.ImageFileName);
+                }
+                catch (Exception)
+                {
+                    isJsonValid = false;
+                }
 
                 carList.Add(carItem);
             }

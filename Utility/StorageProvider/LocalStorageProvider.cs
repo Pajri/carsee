@@ -49,6 +49,39 @@ namespace CarSee.Utility.StorageProvider
             }
         }
 
+        public async Task<SPSaveResponseDto> Save(String base64Image)
+        {
+            try
+            {
+                Image image;
+                string filePath = _options.LocalStorageProvider.FilePath;
+                string fileName = "";
+
+                byte[] bytes = Convert.FromBase64String(base64Image);
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    image = Image.FromStream(ms);
+                    fileName = $"{Guid.NewGuid()}.{image.RawFormat.ToString().ToLower()}";
+                    filePath = Path.Combine(filePath, fileName);
+
+                    using (FileStream fs = File.Create(filePath))
+                    {
+                        ms.WriteTo(fs);
+                    }
+                }
+
+                return new SPSaveResponseDto
+                {
+                    FileName = fileName,
+                    FilePath = filePath
+                };
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<List<SPSaveResponseDto>> Save(List<IFormFile> files, bool useUniqueFileName = false)
         {
             try
