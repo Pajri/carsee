@@ -58,6 +58,9 @@ namespace CarSee.Migrations.ApplicationDb
                     b.Property<string>("SellerPhoneNumber")
                         .HasColumnType("text");
 
+                    b.Property<string>("Uid")
+                        .HasColumnType("text");
+
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 

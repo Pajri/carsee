@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarSee.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220501065226_AddFeedback")]
-    partial class AddFeedback
+    [Migration("20220619183122_InitialApp")]
+    partial class InitialApp
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -58,6 +58,9 @@ namespace CarSee.Migrations.ApplicationDb
                         .HasColumnType("text");
 
                     b.Property<string>("SellerPhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Uid")
                         .HasColumnType("text");
 
                     b.Property<string>("UserId")

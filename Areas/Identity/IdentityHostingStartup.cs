@@ -16,8 +16,7 @@ namespace CarSee.Areas.Identity
         {
             builder.ConfigureServices((context, services) =>
             {
-                services.AddDbContext<ApplicationIdentityDbContext>(o => o.UseNpgsql(context.Configuration.GetConnectionString("ApplicationIdentityDbContextConnection"),
-                    options => options.SetPostgresVersion(new Version(9, 5))));
+                services.AddDbContext<ApplicationIdentityDbContext>(o => o.UseNpgsql(context.Configuration.GetConnectionString("ApplicationIdentityDbContextConnection")));
 
                 services.AddIdentity<IdentityUser, IdentityRole>(options =>
                 {
