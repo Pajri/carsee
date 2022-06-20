@@ -16,15 +16,7 @@ namespace CarSee.Areas.Identity
         {
             builder.ConfigureServices((context, services) =>
             {
-                services.AddDbContext<ApplicationIdentityDbContext>(o => o.UseNpgsql(context.Configuration.GetConnectionString("ApplicationIdentityDbContextConnection")));
-
-                services.AddIdentity<IdentityUser, IdentityRole>(options =>
-                {
-                    options.SignIn.RequireConfirmedAccount = false;
-                    options.SignIn.RequireConfirmedEmail = false;
-                    options.SignIn.RequireConfirmedPhoneNumber = false;
-                })
-                    .AddEntityFrameworkStores<ApplicationIdentityDbContext>();
+                services.AddDbContext<ApplicationIdentityDbContext>(o => o.UseNpgsql(context.Configuration.GetConnectionString("ApplicationIdentityDbContextConnection")));      
             });
         }
     }
