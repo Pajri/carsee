@@ -43,11 +43,6 @@ namespace CarSee
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseNpgsql(connectionString));
 
-
-            services.AddDbContext<ApplicationIdentityDbContext>(o => o.UseNpgsql(connectionString));      
-            
-
-
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;

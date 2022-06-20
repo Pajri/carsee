@@ -16,6 +16,8 @@ namespace CarSee.Areas.Identity
         {
             builder.ConfigureServices((context, services) =>
             {
+                services.AddDbContext<ApplicationIdentityDbContext>(o => o.UseNpgsql(context.Configuration.GetConnectionString("DefaultConnection")));
+
             });
         }
     }
