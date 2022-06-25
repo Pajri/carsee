@@ -1,17 +1,20 @@
+using CarSee.Utility.Common;
+
 namespace CarSee.Dtos
 {
     public class YearMadeCriteria : Criteria<int>
     {
-        /*
-        <= 2005 1
-        >= 2005 <= 2010 2
-        >= 2010 <= 2015 3
-        >= 2015 <= 2020 4
-        >= 2020 5
-        */
-        public YearMadeCriteria(int value) : base(value)
+        private string[] _yearMadeWeights;
+        public YearMadeCriteria(int value, string[] yearMadeWeights) : base(value)
         {
             this.Value = value;
+            _yearMadeWeights = yearMadeWeights;
+        }
+
+        public YearMadeCriteria(int criteriaWeight) : base(0)
+        {
+            this.Value = 0;
+            this.CriteriaWeight = criteriaWeight;
         }
 
         public override int CalculateGap(int val)
@@ -27,11 +30,23 @@ namespace CarSee.Dtos
 
         public override int MapCriteria()
         {
-            if(this.Value >= 2020) return 5;
-            if(this.Value >= 2015) return 4;
-            if(this.Value > 2010) return 3;
-            if(this.Value > 2005) return 2;
-            return 1;
+            //if(this.Value >= 2020) return 5;
+            //if(this.Value >= 2015) return 4;
+            //if(this.Value > 2010) return 3;
+            //if(this.Value > 2005) return 2;
+            //return 1;
+            return this.CriteriaWeight;
+
+        }
+
+        public int GetWeightValue()
+        {
+            for (int i = 0; i < _yearMadeWeights.Length; i++)
+            {
+                var current = _yearMadeWeights[i];
+                if (WeightUtil.IsValueBetweenDouble(current, Value)) return i + 1;
+            }
+            return _yearMadeWeights.Length;
         }
     }
 }

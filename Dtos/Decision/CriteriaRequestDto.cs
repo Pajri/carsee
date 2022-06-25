@@ -2,13 +2,10 @@ namespace CarSee.Dtos
 {
     public class CriteriaRequestDto
     {
-        public long Mileage { get; set; }
-        
-        public float Condition { get; set; }
-        public int YearMade { get; set; }
-        
+        public string Mileage { get; set; }
+        public string Condition { get; set; }
+        public string YearMade { get; set; }
         public string Brand { get; set; }
-        
-        public double Price { get; set; }
+        public string Price { get; set; }
     }
 }

@@ -7,10 +7,10 @@ namespace CarSee.Dtos.Decision
 {
     public class WeightRequestDto
     {
-        public int Mileage { get; set; }
-        public int Condition { get; set; }
-        public int YearMade { get; set; }
-        public int Brand { get; set; }
-        public int Price { get; set; }
+        public string[] Mileage { get; set; }
+        public string[] Condition { get; set; }
+        public string[] YearMade { get; set; }
+        public string[] Brand { get; set; }
+        public string[] Price { get; set; }
     }
 }

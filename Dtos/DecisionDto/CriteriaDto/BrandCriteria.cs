@@ -13,10 +13,19 @@ namespace CarSee.Dtos
             {"Toyota",5}
         };
 
-        public BrandCriteria(string value) : base(value)
+        private string[] _brandWeights;
+        public BrandCriteria(string value, string[] brandWeights) : base(value)
         {
             this.Value = value;
+            _brandWeights = brandWeights;
         }
+
+        public BrandCriteria(int criteriaWeight) : base("")
+        {
+            this.Value = "";
+            this.CriteriaWeight = criteriaWeight;
+        }
+
         public override int CalculateGap(int val)
         {
             this.Gap = val-this.MapCriteria();
@@ -29,7 +38,18 @@ namespace CarSee.Dtos
 
         public override int MapCriteria()
         {
-            return BrandDict[this.Value];
+            //return BrandDict[this.Value];
+            return this.CriteriaWeight;
+        }
+
+        public int GetWeightValue()
+        {
+            for (int i = 0; i < _brandWeights.Length; i++)
+            {
+                var current = _brandWeights[i];
+                if (current == Value) return i + 1;
+            }
+            return _brandWeights.Length;
         }
     }
 }

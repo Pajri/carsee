@@ -1,17 +1,20 @@
+using CarSee.Utility.Common;
+
 namespace CarSee.Dtos
 {
     public class MileageCriteria : Criteria<long>
     {
-        /*
-        >= 100.000 km 1
-        <= 100.000 km 2
-        <= 80.000 km 3
-        <= 50.000 km 4
-        <= 20.000 km 5
-        */
-        public MileageCriteria(long value) : base(value)
+        private string[] _mileageWeights;
+        public MileageCriteria(long value, string[] mileageWeights) : base(value)
         {
             this.Value = value;
+            _mileageWeights = mileageWeights;
+        }
+
+        public MileageCriteria(int criteriaWeight) : base(0)
+        {
+            this.Value = 0;
+            this.CriteriaWeight = criteriaWeight;
         }
 
         public override int CalculateGap(int val)
@@ -27,12 +30,23 @@ namespace CarSee.Dtos
 
         public override int MapCriteria()
         {
-            if(this.Value > 100000) return 1;
-            if(this.Value > 80000) return 2;
-            if(this.Value > 50000) return 3;
-            if(this.Value > 20000) return 4;
-            return 5;
+            //if(this.Value > 100000) return 1;
+            //if(this.Value > 80000) return 2;
+            //if(this.Value > 50000) return 3;
+            //if(this.Value > 20000) return 4;
+            //return 5;
 
+            return this.CriteriaWeight;
+        }
+
+        public int GetWeightValue()
+        {
+            for (int i = 0; i < _mileageWeights.Length; i++)
+            {
+                var current = _mileageWeights[i];
+                if (WeightUtil.IsValueBetweenLong(current, Value)) return i + 1;
+            }
+            return _mileageWeights.Length;
         }
     }
 }

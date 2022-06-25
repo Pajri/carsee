@@ -7,6 +7,7 @@ namespace CarSee.Dtos
         public T Value { get; set; }
         public int Gap { get; set; }
         public float MappedGap { get; set;}
+        protected int CriteriaWeight { get; set; }
         
         
         
@@ -18,6 +19,12 @@ namespace CarSee.Dtos
         public Criteria(T value)
         {
             Value = value;
+        }
+
+        public int CalculateGap(int val, int valCriteria)
+        {
+            this.Gap = val - valCriteria;
+            return this.Gap;
         }
 
         public abstract int MapCriteria();

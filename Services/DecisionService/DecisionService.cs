@@ -7,6 +7,7 @@ using CarSee.Entities;
 using System;
 using Newtonsoft.Json;
 using CarSee.Constants;
+using CarSee.Dtos.Decision;
 
 namespace CarSee.Services.DecisionService
 {
@@ -26,24 +27,24 @@ namespace CarSee.Services.DecisionService
                 /*calculate gap*/
                 //core 
                 car.PriceCriteria.Gap = criteria.CoreFactor
-                    .PriceCriteria.CalculateGap(car.PriceCriteria.MapCriteria());
+                    .PriceCriteria.CalculateGap(car.PriceCriteria.GetWeightValue());
                 car.PriceCriteria.ConvertGap();
 
                 car.YearMadeCriteria.Gap = criteria.CoreFactor
-                    .YearMadeCriteria.CalculateGap(car.YearMadeCriteria.MapCriteria());
+                    .YearMadeCriteria.CalculateGap(car.YearMadeCriteria.GetWeightValue());
                 car.YearMadeCriteria.ConvertGap();
 
                 car.ConditionCriteria.Gap = criteria.CoreFactor
-                    .ConditionCriteria.CalculateGap(car.ConditionCriteria.MapCriteria());
+                    .ConditionCriteria.CalculateGap(car.ConditionCriteria.GetWeightValue());
                 car.ConditionCriteria.ConvertGap();
 
                 //secondary
                 car.BrandCriteria.Gap = criteria.SecondaryFactor
-                    .BrandCriteria.CalculateGap(car.BrandCriteria.MapCriteria());
+                    .BrandCriteria.CalculateGap(car.BrandCriteria.GetWeightValue());
                 car.BrandCriteria.ConvertGap();
 
                 car.MileageCriteria.Gap = criteria.SecondaryFactor
-                    .MileageCriteria.CalculateGap(car.MileageCriteria.MapCriteria());
+                    .MileageCriteria.CalculateGap(car.MileageCriteria.GetWeightValue());
                 car.MileageCriteria.ConvertGap();
 
                 /*calculate ncf and nsf*/
@@ -65,18 +66,25 @@ namespace CarSee.Services.DecisionService
 
         public CriteriaDto CreateCriteriaDto(DecisionRequestDto dto)
         {
+            int mileage = int.Parse(dto.Criteria.Mileage);
+            int condition = int.Parse(dto.Criteria.Condition);
+            int price = int.Parse(dto.Criteria.Price);
+            int yearMade = int.Parse(dto.Criteria.YearMade);
+            int brand = int.Parse(dto.Criteria.Brand);
+
+
             CriteriaDto criteriaDto = new CriteriaDto();
             criteriaDto.CoreFactor = new CoreFactor()
             {
-                ConditionCriteria = new ConditionCriteria(dto.Criteria.Condition),
-                PriceCriteria = new PriceCriteria(dto.Criteria.Price),
-                YearMadeCriteria = new YearMadeCriteria(dto.Criteria.YearMade)
+                ConditionCriteria = new ConditionCriteria(condition),
+                PriceCriteria = new PriceCriteria(price),
+                YearMadeCriteria = new YearMadeCriteria(yearMade)
             };
 
             criteriaDto.SecondaryFactor = new SecondaryFactor
             {
-                BrandCriteria = new BrandCriteria(dto.Criteria.Brand),
-                MileageCriteria = new MileageCriteria(dto.Criteria.Mileage)
+                BrandCriteria = new BrandCriteria(brand),
+                MileageCriteria = new MileageCriteria(mileage)
             };
 
             criteriaDto.CoreFactorRate = 0.6f;
@@ -85,7 +93,7 @@ namespace CarSee.Services.DecisionService
             return criteriaDto;
         }
 
-        public List<CarDecisionDto> CreateCarDecisionDto(List<CarDto> carList)
+        public List<CarDecisionDto> CreateCarDecisionDto(List<CarDto> carList, WeightRequestDto weight)
         {   
             var carDecisionList = new List<CarDecisionDto>();
             foreach (var car in carList)
@@ -104,11 +112,11 @@ namespace CarSee.Services.DecisionService
                     UserId = car.UserId
                 };
 
-                carDecision.PriceCriteria = new PriceCriteria(car.Price);
-                carDecision.YearMadeCriteria = new YearMadeCriteria(car.ProductionYear);
-                carDecision.ConditionCriteria = new ConditionCriteria(car.Condition);
-                carDecision.BrandCriteria = new BrandCriteria(car.Brand);
-                carDecision.MileageCriteria = new MileageCriteria(car.Mileage);
+                carDecision.PriceCriteria = new PriceCriteria(car.Price, weight.Price);
+                carDecision.YearMadeCriteria = new YearMadeCriteria(car.ProductionYear, weight.YearMade);
+                carDecision.ConditionCriteria = new ConditionCriteria(car.Condition, weight.Condition);
+                carDecision.BrandCriteria = new BrandCriteria(car.Brand, weight.Brand);
+                carDecision.MileageCriteria = new MileageCriteria(car.Mileage, weight.Mileage);
 
                 carDecisionList.Add(carDecision);
 

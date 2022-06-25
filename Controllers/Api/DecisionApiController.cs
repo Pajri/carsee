@@ -25,37 +25,10 @@ namespace CarSee.Controllers.Api
         [HttpPost]
         public async Task<CommonApiResponseDto> ProfileMatching(DecisionRequestDto dto)
         {
-            float condition = float.Parse(dto.CriteriaArr[DecisionRequestDto.IDX_CONDITION]);
-            long mileage = long.Parse(dto.CriteriaArr[DecisionRequestDto.IDX_MILEAGE]);
-            double price = double.Parse(dto.CriteriaArr[DecisionRequestDto.IDX_PRICE]);
-            int yearmade = int.Parse(dto.CriteriaArr[DecisionRequestDto.IDX_YEARMADE]);
-
-            int conditionWeight = int.Parse(dto.WeightArr[DecisionRequestDto.IDX_CONDITION]);
-            int mileageWeight = int.Parse(dto.WeightArr[DecisionRequestDto.IDX_MILEAGE]);
-            int priceWeight = int.Parse(dto.WeightArr[DecisionRequestDto.IDX_PRICE]);
-            int yearmadeWeight = int.Parse(dto.WeightArr[DecisionRequestDto.IDX_YEARMADE]);
-            int brandWeight = int.Parse(dto.WeightArr[DecisionRequestDto.IDX_BRAND]);
-
-            dto.Criteria = new CriteriaRequestDto
-            {
-                Brand = dto.CriteriaArr[DecisionRequestDto.IDX_BRAND],
-                Condition = condition,
-                Mileage = mileage,
-                Price = price,
-                YearMade = yearmade
-            };
-
-            dto.Weight = new WeightRequestDto
-            {
-                Condition = conditionWeight,
-                Brand = brandWeight,
-                Mileage = mileageWeight,
-                Price = priceWeight,
-                YearMade = yearmadeWeight
-            };
+            
 
             var criteriaDto = _service.CreateCriteriaDto(dto);
-            var carDecisionList = _service.CreateCarDecisionDto(dto.CarList);
+            var carDecisionList = _service.CreateCarDecisionDto(dto.CarList, dto.Weight);
 
             var result = _service.ProfileMatching(criteriaDto, carDecisionList);
             
