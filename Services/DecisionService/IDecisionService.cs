@@ -9,7 +9,7 @@ namespace CarSee.Services.DecisionService
     {
         public List<CarDecisionDto> ProfileMatching(CriteriaDto criteria, List<CarDecisionDto> carList);
         public CriteriaDto CreateCriteriaDto(DecisionRequestDto dto);
-        public List<CarDecisionDto> CreateCarDecisionDto(string UUID, WeightRequestDto weight);
+        public List<CarDecisionDto> CreateCarDecisionDto(List<CarDto> carList, WeightRequestDto weight);
         public void SaveResult(DecisionResultDto result);
         public List<CarDecisionDto> GetResult(Guid id);
     }

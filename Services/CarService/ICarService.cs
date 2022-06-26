@@ -14,5 +14,6 @@ namespace CarSee.Services.CarService
         public CarDto DeleteCar(Guid id);
         public CarDto DeleteCar(string Id);
         public void Favoritkan(Guid carId, string UUID);
+        public List<CarDto> GetDecisionCarList(string UUID);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CarSee.Constants;
 using CarSee.Dtos;
@@ -23,13 +24,41 @@ namespace CarSee.Controllers.Api
             _decisionService = service;
             _carService = carService;
         }
-        
+
+        [HttpPost]
+        [Route("get-score")]
+        public async Task<CommonApiResponseDto> GetScore(DecisionRequestDto dto)
+        {
+
+            var carList = _carService.GetDecisionCarList(dto.UUID);
+            if(!carList.Any(c => c.Id == dto.CarId))
+            {
+                var detailCar = _carService.GetDetailCar(dto.CarId);
+                carList.Add(detailCar);
+            }
+
+            var criteriaDto = _decisionService.CreateCriteriaDto(dto);
+            var carDecisionList = _decisionService.CreateCarDecisionDto(carList, dto.Weight);
+
+            var result = _decisionService.ProfileMatching(criteriaDto, carDecisionList);
+
+            var singleResult = result.Where(r => r.Id == dto.CarId).FirstOrDefault();
+
+            CommonApiResponseDto response = new CommonApiResponseDto
+            {
+                Status = ResponseStatus.RESPONSE_SUCCESS,
+                Data = singleResult
+            };
+
+            return await Task.FromResult<CommonApiResponseDto>(response);
+
+        }
+
         [HttpPost]
         [Route("favoritkan")]
         public async Task<CommonApiResponseDto> Favoritkan(DecisionRequestDto dto)
         {
-            Guid id = Guid.Parse(dto.CarId);
-            _carService.Favoritkan(id, dto.UUID);
+            _carService.Favoritkan(dto.CarId, dto.UUID);
 
             CommonApiResponseDto response = new CommonApiResponseDto
             {
@@ -42,8 +71,9 @@ namespace CarSee.Controllers.Api
         [HttpPost]
         public async Task<CommonApiResponseDto> ProfileMatching(DecisionRequestDto dto)
         {
+            var carList = _carService.GetDecisionCarList(dto.UUID);
             var criteriaDto = _decisionService.CreateCriteriaDto(dto);
-            var carDecisionList = _decisionService.CreateCarDecisionDto(dto.UUID, dto.Weight);
+            var carDecisionList = _decisionService.CreateCarDecisionDto(carList, dto.Weight);
 
             var result = _decisionService.ProfileMatching(criteriaDto, carDecisionList);
             

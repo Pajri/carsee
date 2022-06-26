@@ -19,6 +19,44 @@ namespace CarSee.Services.CarService
             _ctx = ctx;
         }
 
+        public List<CarDto> GetDecisionCarList(string UUID)
+        {
+            var carListData = _ctx.Car.Where(c => c.UUID == UUID);
+
+            List<CarDto> carList = new List<CarDto>();
+            foreach (var item in carListData)
+            {
+                var carItem = new CarDto()
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Price = item.Price,
+                    Brand = item.Brand,
+                    ProductionYear = item.ProductionYear,
+                    Condition = item.Condition,
+                    Description = item.Description,
+                    Mileage = item.Mileage,
+                    ImageFileName = item.ImageFileName,
+                    SellerName = item.SellerName,
+                    SellerPhoneNumber = item.SellerPhoneNumber
+                };
+
+                bool isJsonValid = true;
+                try
+                {
+                    carItem.ImageFileNameArr = JsonConvert.DeserializeObject<string[]>(carItem.ImageFileName);
+                }
+                catch (Exception)
+                {
+                    isJsonValid = false;
+                }
+
+                carList.Add(carItem);
+            }
+
+            return carList;
+        }
+
         public (List<CarDto>, int) GetCar(int? pageParam, int? pageSizeParam, string carName = null)
         {
             int page = (pageParam == null) ? 0 : pageParam.Value-1;

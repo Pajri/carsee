@@ -92,10 +92,8 @@ namespace CarSee.Services.DecisionService
             return criteriaDto;
         }
 
-        public List<CarDecisionDto> CreateCarDecisionDto(string UUID, WeightRequestDto weight)
+        public List<CarDecisionDto> CreateCarDecisionDto(List<CarDto> carList, WeightRequestDto weight)
         {
-            var carList = _ctx.Car.Where(c => c.UUID == UUID);
-
             var carDecisionList = new List<CarDecisionDto>();
             foreach (var car in carList)
             {
