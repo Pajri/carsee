@@ -7,7 +7,7 @@ namespace CarSee.Dtos
         public T Value { get; set; }
         public int Gap { get; set; }
         public float MappedGap { get; set;}
-        protected int CriteriaWeight { get; set; }
+        public int CriteriaWeight { get; set; }
         
         
         

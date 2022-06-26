@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,8 +11,8 @@ namespace CarSee.Utility.Common
         public static bool IsValueBetweenDouble(string valRange, double val)
         {
             string[] valSplit = valRange.Split('-');
-            double valMin = double.Parse(valSplit[0]);
-            double valMax = double.Parse(valSplit[1]);
+            double valMin = double.Parse(valSplit[0], CultureInfo.InvariantCulture);
+            double valMax = double.Parse(valSplit[1], CultureInfo.InvariantCulture);
 
             if (val >= valMin && val <= valMax) return true;
             return false;
@@ -40,8 +41,8 @@ namespace CarSee.Utility.Common
         public static bool IsValueBetweenFloat(string valRange, float val)
         {
             string[] valSplit = valRange.Split('-');
-            float valMin = float.Parse(valSplit[0]);
-            float valMax = float.Parse(valSplit[1]);
+            float valMin = float.Parse(valSplit[0], CultureInfo.InvariantCulture);
+            float valMax = float.Parse(valSplit[1], CultureInfo.InvariantCulture);
 
             if (val >= valMin && val <= valMax) return true;
             return false;

@@ -19,7 +19,7 @@ namespace CarSee.Dtos
 
         public override int CalculateGap(int val)
         {
-            this.Gap = val-this.MapCriteria();
+            this.Gap = val-this.CriteriaWeight;
             return  this.Gap;
         }
 
@@ -30,13 +30,11 @@ namespace CarSee.Dtos
 
         public override int MapCriteria()
         {
-            //if(this.Value > 100000) return 1;
-            //if(this.Value > 80000) return 2;
-            //if(this.Value > 50000) return 3;
-            //if(this.Value > 20000) return 4;
-            //return 5;
-
-            return this.CriteriaWeight;
+            if(this.Value > 100000) return 1;
+            if(this.Value > 80000) return 2;
+            if(this.Value > 50000) return 3;
+            if(this.Value > 20000) return 4;
+            return 5;
         }
 
         public int GetWeightValue()
@@ -44,7 +42,7 @@ namespace CarSee.Dtos
             for (int i = 0; i < _mileageWeights.Length; i++)
             {
                 var current = _mileageWeights[i];
-                if (WeightUtil.IsValueBetweenLong(current, Value)) return i + 1;
+                if (WeightUtil.IsValueBetweenLong(current, Value))  return i + 1;
             }
             return _mileageWeights.Length;
         }

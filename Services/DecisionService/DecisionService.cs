@@ -48,8 +48,8 @@ namespace CarSee.Services.DecisionService
                 car.MileageCriteria.ConvertGap();
 
                 /*calculate ncf and nsf*/
-                car.NCF = (car.PriceCriteria.MappedGap + car.YearMadeCriteria.MappedGap + car.ConditionCriteria.MappedGap)/3;
-                car.NSF = (car.BrandCriteria.MappedGap + car.MileageCriteria.MappedGap)/2;
+                car.NCF = (car.PriceCriteria.MappedGap + car.YearMadeCriteria.MappedGap + car.BrandCriteria.MappedGap)/3;
+                car.NSF = (car.ConditionCriteria.MappedGap + car.MileageCriteria.MappedGap)/2;
 
                 /*calclate NT*/
                 car.NT = criteria.CoreFactorRate*car.NCF + criteria.SecondaryFactorRate*car.NSF;
@@ -72,7 +72,6 @@ namespace CarSee.Services.DecisionService
             int yearMade = int.Parse(dto.Criteria.YearMade);
             int brand = int.Parse(dto.Criteria.Brand);
 
-
             CriteriaDto criteriaDto = new CriteriaDto();
             criteriaDto.CoreFactor = new CoreFactor()
             {
@@ -93,8 +92,10 @@ namespace CarSee.Services.DecisionService
             return criteriaDto;
         }
 
-        public List<CarDecisionDto> CreateCarDecisionDto(List<CarDto> carList, WeightRequestDto weight)
-        {   
+        public List<CarDecisionDto> CreateCarDecisionDto(string UUID, WeightRequestDto weight)
+        {
+            var carList = _ctx.Car.Where(c => c.UUID == UUID);
+
             var carDecisionList = new List<CarDecisionDto>();
             foreach (var car in carList)
             {

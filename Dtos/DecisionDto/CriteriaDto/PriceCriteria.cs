@@ -20,7 +20,7 @@ namespace CarSee.Dtos
 
         public override int CalculateGap(int val)
         {
-            this.Gap = val-this.MapCriteria();
+            this.Gap = val-this.CriteriaWeight;
             return  this.Gap;
         }
 

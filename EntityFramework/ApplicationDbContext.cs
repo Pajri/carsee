@@ -13,7 +13,6 @@ namespace CarSee.EntityFramework
             : base(options)
         {
 
-
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

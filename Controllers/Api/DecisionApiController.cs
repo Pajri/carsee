@@ -25,10 +25,8 @@ namespace CarSee.Controllers.Api
         [HttpPost]
         public async Task<CommonApiResponseDto> ProfileMatching(DecisionRequestDto dto)
         {
-            
-
             var criteriaDto = _service.CreateCriteriaDto(dto);
-            var carDecisionList = _service.CreateCarDecisionDto(dto.CarList, dto.Weight);
+            var carDecisionList = _service.CreateCarDecisionDto(dto.UUID, dto.Weight);
 
             var result = _service.ProfileMatching(criteriaDto, carDecisionList);
             
