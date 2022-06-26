@@ -247,5 +247,13 @@ namespace CarSee.Services.CarService
 
             return car;
         }
+
+        public void Favoritkan(Guid carId, string UUID)
+        {
+            var car = _ctx.Car.Where(c => c.Id == carId).FirstOrDefault();
+            car.UUID = UUID;
+            _ctx.Update(car);
+            _ctx.SaveChanges();
+        }
     }
 }

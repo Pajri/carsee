@@ -13,5 +13,6 @@ namespace CarSee.Services.CarService
         public bool IsCarExists(Guid id);
         public CarDto DeleteCar(Guid id);
         public CarDto DeleteCar(string Id);
+        public void Favoritkan(Guid carId, string UUID);
     }
 }

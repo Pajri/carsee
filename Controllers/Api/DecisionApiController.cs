@@ -16,19 +16,36 @@ namespace CarSee.Controllers.Api
     [ApiController]
     public class DecisionApiController : ControllerBase
     {   
-        private readonly IDecisionService _service;
-        public DecisionApiController(IDecisionService service)
+        private readonly IDecisionService _decisionService;
+        private readonly ICarService _carService;
+        public DecisionApiController(IDecisionService service, ICarService carService)
         {
-            _service = service;
+            _decisionService = service;
+            _carService = carService;
+        }
+        
+        [HttpPost]
+        [Route("favoritkan")]
+        public async Task<CommonApiResponseDto> Favoritkan(DecisionRequestDto dto)
+        {
+            Guid id = Guid.Parse(dto.CarId);
+            _carService.Favoritkan(id, dto.UUID);
+
+            CommonApiResponseDto response = new CommonApiResponseDto
+            {
+                Status = ResponseStatus.RESPONSE_SUCCESS,
+            };
+
+            return await Task.FromResult<CommonApiResponseDto>(response);
         }
         
         [HttpPost]
         public async Task<CommonApiResponseDto> ProfileMatching(DecisionRequestDto dto)
         {
-            var criteriaDto = _service.CreateCriteriaDto(dto);
-            var carDecisionList = _service.CreateCarDecisionDto(dto.UUID, dto.Weight);
+            var criteriaDto = _decisionService.CreateCriteriaDto(dto);
+            var carDecisionList = _decisionService.CreateCarDecisionDto(dto.UUID, dto.Weight);
 
-            var result = _service.ProfileMatching(criteriaDto, carDecisionList);
+            var result = _decisionService.ProfileMatching(criteriaDto, carDecisionList);
             
             var decisionResultDto = new DecisionResultDto
             {
@@ -36,7 +53,7 @@ namespace CarSee.Controllers.Api
                 Result = JsonConvert.SerializeObject(result)
             };
 
-            _service.SaveResult(decisionResultDto);
+            _decisionService.SaveResult(decisionResultDto);
 
             CommonApiResponseDto response = new CommonApiResponseDto
             {
@@ -50,7 +67,7 @@ namespace CarSee.Controllers.Api
         [HttpGet]
         public async Task<CommonApiResponseDto> GetDecisionById([FromQuery] Guid id)
         {
-            var result = _service.GetResult(id);
+            var result = _decisionService.GetResult(id);
 
             CommonApiResponseDto response = new CommonApiResponseDto
             {
