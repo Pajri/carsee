@@ -55,6 +55,7 @@ namespace CarSee.Utility.StorageProvider
             {
                 Image image;
                 string filePath = _options.LocalStorageProvider.FilePath;
+                Console.WriteLine($"FilePath : {filePath}");
                 string fileName = "";
 
                 byte[] bytes = Convert.FromBase64String(base64Image);
