@@ -8,15 +8,18 @@ using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarSee.Services.CarService
 {
     public class CarService : ICarService
     {
         private readonly ApplicationDbContext _ctx;
-        public CarService(ApplicationDbContext ctx)
+        private readonly ApplicationIdentityDbContext _identityCtx;
+        public CarService(ApplicationDbContext ctx, ApplicationIdentityDbContext identityCtx)
         {
             _ctx = ctx;
+            _identityCtx = identityCtx;
         }
 
         public List<CarDto> GetDecisionCarList(string UUID)
@@ -64,7 +67,7 @@ namespace CarSee.Services.CarService
             int total = 0;
 
             var carQuery = _ctx.Car.AsQueryable();
-            if(carName != null) carQuery =  carQuery.Where(n => n.Name.ToLower().Contains(carName.ToLower()));
+            if (carName != null) carQuery = carQuery.Include(u => u.User).Where(n => n.Name.ToLower().Contains(carName.ToLower()));
             carQuery = carQuery.OrderByDescending(d => d.CreatedDate);
             total = carQuery.Count();
             
@@ -133,7 +136,7 @@ namespace CarSee.Services.CarService
             try
             {
                 if (id == null) car.Id = Guid.NewGuid();
-                
+                                             
                 Car carToStore = new Car()
                 {
                     Id = car.Id,
@@ -146,10 +149,16 @@ namespace CarSee.Services.CarService
                     Mileage = car.Mileage,
                     ImageFileName = car.ImageFileName,
                     CreatedDate = DateTime.Now,
-                    UserId = car.UserId,
+                    // UserId = car.UserId,
                     SellerName = car.SellerName,
                     SellerPhoneNumber = car.SellerPhoneNumber
                 };
+
+                if (car.UserId != null && car.UserId != "")
+                {
+                    var user = _identityCtx.Users.Where(u => u.Id == car.UserId).SingleOrDefault();
+                    carToStore.User = user;
+                }
 
                 _ctx.Add(carToStore);
                 _ctx.SaveChanges();

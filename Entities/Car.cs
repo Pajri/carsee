@@ -16,11 +16,13 @@ namespace CarSee.Entities
         public int Mileage { get; set; }
         public string ImageFileName { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string UserId { get; set; }
         public string UUID { get; set; }
 
         public string SellerName { get; set; }
         public string SellerPhoneNumber { get; set; }
+
+        public string? UserId { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
     }
 }

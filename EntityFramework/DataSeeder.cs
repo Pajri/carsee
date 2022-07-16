@@ -1,20 +1,21 @@
 using System;
 using System.Linq;
 using CarSee.Constants;
+using CarSee.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace CarSee.EntityFramework
 {
     public class DataSeeder
     {
-        public static void SeedUser(UserManager<IdentityUser> userManager)
+        public static void SeedUser(UserManager<ApplicationUser> userManager)
         {
             var userEmail = "admin@admin.com";
             var userExists = userManager.Users.Any(u => u.Email == userEmail);
             if (!userExists)
             {
 
-                var user = new IdentityUser
+                var user = new ApplicationUser
                 {
                     Id = Guid.NewGuid().ToString(),
                     UserName = "admin@admin.com",
@@ -32,7 +33,7 @@ namespace CarSee.EntityFramework
             IdentityRole admin = new IdentityRole
             {
                 Id = Guid.NewGuid().ToString(),
-                Name = Constants.Roles.ROLE_ADMIN
+                Name = Roles.ROLE_ADMIN
             };
             if (!roleManager.RoleExistsAsync(admin.Name).Result)
             {
@@ -42,7 +43,7 @@ namespace CarSee.EntityFramework
             IdentityRole buyer = new IdentityRole
             {
                 Id = Guid.NewGuid().ToString(),
-                Name = Constants.Roles.ROLE_BUYER
+                Name = Roles.ROLE_BUYER
             };
             if (!roleManager.RoleExistsAsync(buyer.Name).Result)
             {

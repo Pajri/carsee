@@ -17,6 +17,13 @@ namespace CarSee.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
+            builder.Entity<Car>()
+              .HasOne(c => c.User)
+              .WithMany(u => u.Cars)
+              .HasForeignKey(f => f.UserId)
+              .HasConstraintName("UserId")
+              .OnDelete(DeleteBehavior.Cascade);
             base.OnModelCreating(builder);
         }
 
