@@ -32,5 +32,6 @@ namespace CarSee.Dtos
         
         [Display(Name="Seller Phone Number")]
         public string SellerPhoneNumber { get; set; }
+        public string UUID { get; set; }
     }
 }

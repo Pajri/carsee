@@ -108,7 +108,9 @@ namespace CarSee.Services.DecisionService
                     Description = car.Description,
                     Mileage = car.Mileage,
                     ImageFileName = car.ImageFileName,
-                    UserId = car.UserId
+                    UserId = car.UserId,
+                    UUID = car.UUID,
+                    ImageFileNameArr = car.ImageFileNameArr
                 };
 
                 carDecision.PriceCriteria = new PriceCriteria(car.Price, weight.Price);

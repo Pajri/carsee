@@ -41,7 +41,8 @@ namespace CarSee.Services.CarService
                     Mileage = item.Mileage,
                     ImageFileName = item.ImageFileName,
                     SellerName = item.SellerName,
-                    SellerPhoneNumber = item.SellerPhoneNumber
+                    SellerPhoneNumber = item.SellerPhoneNumber,
+                    UUID = item.UUID
                 };
 
                 bool isJsonValid = true;
@@ -89,7 +90,8 @@ namespace CarSee.Services.CarService
                     Mileage = item.Mileage,
                     ImageFileName = item.ImageFileName,
                     SellerName = item.SellerName,
-                    SellerPhoneNumber = item.SellerPhoneNumber
+                    SellerPhoneNumber = item.SellerPhoneNumber,
+                    UUID = item.UUID
                 };
 
                 bool isJsonValid = true;
@@ -125,7 +127,8 @@ namespace CarSee.Services.CarService
                 Mileage = car.Mileage,
                 ImageFileName = car.ImageFileName,
                 SellerName = car.SellerName,
-                SellerPhoneNumber = car.SellerPhoneNumber
+                SellerPhoneNumber = car.SellerPhoneNumber,
+                UUID = car.UUID
             };
 
             return carDto;
@@ -149,16 +152,17 @@ namespace CarSee.Services.CarService
                     Mileage = car.Mileage,
                     ImageFileName = car.ImageFileName,
                     CreatedDate = DateTime.Now,
-                    // UserId = car.UserId,
+                    UserId = car.UserId,
                     SellerName = car.SellerName,
-                    SellerPhoneNumber = car.SellerPhoneNumber
+                    SellerPhoneNumber = car.SellerPhoneNumber,
+                    UUID = car.UUID
                 };
 
-                if (car.UserId != null && car.UserId != "")
-                {
-                    var user = _identityCtx.Users.Where(u => u.Id == car.UserId).SingleOrDefault();
-                    carToStore.User = user;
-                }
+                //if (car.UserId != null && car.UserId != "")
+                //{
+                //    var user = _identityCtx.Users.Where(u => u.Id == car.UserId).SingleOrDefault();
+                //    carToStore.User = user;
+                //}
 
                 _ctx.Add(carToStore);
                 _ctx.SaveChanges();
@@ -217,7 +221,8 @@ namespace CarSee.Services.CarService
                     Mileage = storedCar.Mileage,
                     ImageFileName = storedCar.ImageFileName,
                     SellerName = storedCar.SellerName,
-                    SellerPhoneNumber = storedCar.SellerPhoneNumber
+                    SellerPhoneNumber = storedCar.SellerPhoneNumber,
+                    UUID = storedCar.UUID
                 };
 
                 return updatedCar;
@@ -252,7 +257,8 @@ namespace CarSee.Services.CarService
                     Mileage = storedCar.Mileage,
                     ImageFileName = storedCar.ImageFileName,
                     SellerName = storedCar.SellerName,
-                    SellerPhoneNumber = storedCar.SellerPhoneNumber
+                    SellerPhoneNumber = storedCar.SellerPhoneNumber,
+                    UUID = storedCar.UUID
                 };
 
                 return deleted;
@@ -289,7 +295,8 @@ namespace CarSee.Services.CarService
                 Mileage = storedCar.Mileage,
                 ImageFileName = storedCar.ImageFileName,
                 SellerName = storedCar.SellerName,
-                SellerPhoneNumber = storedCar.SellerPhoneNumber
+                SellerPhoneNumber = storedCar.SellerPhoneNumber,
+                UUID = storedCar.UUID
             };
 
             return car;

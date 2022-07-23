@@ -62,12 +62,16 @@ namespace CarSee.Controllers.Api
             CarDto _car = car as CarDto;
             List<string> imageFileNameList = new List<string>();
 
-            foreach (var b64 in car.ImageBase64)
+            if(car.ImageBase64 != null)
             {
-                var providerResponse = await _storageProvider.Save(b64);
-                var fileName = providerResponse.FileName;
-                imageFileNameList.Add(fileName);
+                foreach (var b64 in car.ImageBase64)
+                {
+                    var providerResponse = await _storageProvider.Save(b64);
+                    var fileName = providerResponse.FileName;
+                    imageFileNameList.Add(fileName);
+                }
             }
+           
 
             if(imageFileNameList.Count() > 0)
             {
